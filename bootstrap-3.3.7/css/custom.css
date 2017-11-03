@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body{
+	font-family: 'Roboto', sans-serif; 
+}
+.navbar-brand{
+	position: absolute;
+	width: 100%;
+	left: 0;
+	text-align: center;
+	margin:0 auto;
+}
+.navbar-toggle{
+	z-index: 3;
+}
+.navbar-right{
+margin-right: 2%;
+}
+.form-group{
+	margin:5% 0;
+}
+.form-control{
+	width: 70%;
+}
+.login{
+	padding:0px 4%;
+}
+
+.control-label{
+	text-align: left !important;
+}
+.btnRegister{
+	margin-left: 25%;
+}
+
+.newAccount,h5{
+	font-weight:800;
+	border-bottom:2px solid #d0d0d0;
+	padding-bottom:2%;
+}
+.newAccount{
+	text-align:center;
+	margin:0px auto;
+}
+
+h5{
+	width: 70%;
+}
