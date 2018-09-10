@@ -103,8 +103,9 @@
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
 					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
-				
+					<?php endif; ?>
 				</div>
 				<?php endwhile; ?>	
 				<?php else: ?>
@@ -129,7 +130,9 @@
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
 					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
 				
 				</div>
 				<?php endwhile; ?>			
@@ -147,8 +150,10 @@
 					<img src="admin/photo/<?=$row['item_image']; ?>" width="200px" height="220px">
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
-				
+					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
 				</div>
 				<?php endwhile; ?>			
 			</div>
@@ -165,8 +170,11 @@
 					<img src="admin/photo/<?=$row['item_image']; ?>" width="200px" height="220px">
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
-				
+					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
+
 				</div>
 				<?php endwhile; ?>			
 			</div>
@@ -184,8 +192,10 @@
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
 					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
-
+					<?php endif; ?>
+					
 				</div>
 				<?php endwhile; ?>			
 			</div>
