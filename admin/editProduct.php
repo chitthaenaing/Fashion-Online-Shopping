@@ -27,21 +27,37 @@ if($conn){
 		}
 		$instock = $_POST['instock'];
 		
-		$query = "update products set item_name = :productName, item_code = :productCode, price = :price ,item_image = :name, discount_price = :discountPrice , instock = :instock, categories = :cat,type = :productType where item_id= '$product_id'";
+		if(is_uploaded_file($_FILES['photo']['tmp_name'])) {
+			$query = "update products set item_name = :productName, item_code = :productCode, price = :price ,item_image = :name, discount_price = :discountPrice , instock = :instock, categories = :cat,type = :productType where item_id= '$product_id'";
+
+			$binding=array(
+				':productName' => $productName,
+				':productCode' => $productCode,
+				':price' => $price, 
+				':name' => $name,
+				':discountPrice' => $discountPrice,
+				':instock' => $instock,
+				':cat' => $checkCat,
+				':productType' =>  $productType
+				);
+		}else {
+			$query = "update products set item_name = :productName, item_code = :productCode, price = :price, discount_price = :discountPrice , instock = :instock, categories = :cat,type = :productType where item_id= '$product_id'";
+
+			$binding=array(
+				':productName' => $productName,
+				':productCode' => $productCode,
+				':price' => $price, 
+				':discountPrice' => $discountPrice,
+				':instock' => $instock,
+				':cat' => $checkCat,
+				':productType' =>  $productType
+				);
+		}
 		
-		$binding=array(
-			':productName' => $productName,
-			':productCode' => $productCode,
-			':price' => $price, 
-			':name' => $name,
-			':discountPrice' => $discountPrice,
-			':instock' => $instock,
-			':cat' => $checkCat,
-			':productType' =>  $productType
-			);
+		
 		$res = insert($query,$binding,$conn);
 		if($res) {
-			echo "<script>alert('Saved Successfully');
+			echo "<script>alert('Update Successfully');
 			window.location.href='viewallproducts.php'</script>";
 		}
 	}
@@ -143,8 +159,9 @@ if($conn){
 
 							<div class="row">
 								<div class="form-group col-md-12">
-									<label for="image">Image</label>
-									<input type="file" name="photo" id="image"><br/>
+									<img src="photo/<?= $rs_product[item_image] ?>" alt="" height="150px">
+									<!-- <label for="image">Image</label> -->
+									<input type="file" name="photo" id="image" value="<?= $rs_product[item_image] ?>"><br/>
 								</div>
 							</div>
 
@@ -153,7 +170,7 @@ if($conn){
 								<div class="form-group col-md-2">
 									<label for="instock">Instock</label>
 									<input type="text" class="form-control" name="instock" id="instock" id="instock" value="<?= $rs_product[instock] ?>"><br/>	
-									<input type="submit" class="btn btn-lg btn-primary" value="Insert" name="updateProduct">
+									<input type="submit" class="btn btn-lg btn-primary" value="Update" name="updateProduct">
 								</div>
 							</div>
 						</form>
