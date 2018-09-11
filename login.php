@@ -12,6 +12,7 @@
 			$status = $user->rowCount();
 			//Set SESSION 
 				while($row = $user->fetch()){
+					$_SESSION['customer_acc_id'] = $row['customer_acc_id'];
 					$_SESSION['first_name'] = $row['first_name'];
 					$_SESSION['last_name'] = $row['last_name'];
 					$_SESSION['email'] = $row['email'];

@@ -30,6 +30,7 @@
 				<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?= $_SESSION['first_name'];?>
 				<span class="caret"></span></a>
 				        <ul class="dropdown-menu">
+				          <li><a href="wallet.php">Wallet</a></li>
 				          <li><a href="logout.php">Logout</a></li>
 				        </ul>
 				</a></li>
