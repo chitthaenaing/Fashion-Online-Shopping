@@ -17,9 +17,13 @@
 			);
 
 			$res = insert($query, $binding, $conn);
-			if($res) echo "<script>alert('Finished Bank Account Set up')</script>";
+			if($res) {
+				$_SESSION['bank_balance'] = $_POST['top-up-balance'];
+				echo "<script>alert('Finished Bank Account Set up')</script>";
+			}
 
 		}else if(isset($_POST['top-up'])) {
+
 			$query = "update bank set balance = :balance where customer_id = $customer_id";
 
 			$binding = array(
@@ -27,7 +31,10 @@
 			);
 
 			$res = insert($query, $binding, $conn);
-			if($res) echo "<script>alert('Topped up Successfully')</script>";
+			if($res) {
+				$_SESSION['bank_balance'] = $_POST['top-up-balance'];
+				echo "<script>alert('Topped up Successfully')</script>";
+			}
 		}
 
 		$query = 'Select * from bank where customer_id ='. $customer_id;
