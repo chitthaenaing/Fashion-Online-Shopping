@@ -3,6 +3,7 @@ session_start();
 require '../functions.php';
 $conn = connect();
 $bank_balance = $_SESSION['bank_balance'];
+$customer_acc_id = $_SESSION['customer_acc_id'];
 if(isset($_POST['order'])){
 
 $firstName = $_POST['first_name'];
@@ -23,23 +24,24 @@ if($bank_balance < $grandTotal) {
 }else {
 
   //For Customer
-  $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no)";
+  $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, customer_acc_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :customer_acc_id)";
   $binding = array(
     ':firstName'  => $firstName,
     ':lastName' => $lastName,
     ':email' => $email,
     ':postal_code' => $postal_code,
     ':address' => $address,
-    ':phone_no' => $contactno
+    ':phone_no' => $contactno,
+    ':customer_acc_id'=>$customer_acc_id
     );
     $customer_rs = insert($query,$binding,$conn);
 
     //For Orders
     $customer_id = $conn->lastInsertId();
     $order_qty = count($_SESSION['cart']);
-    $query = "Insert into orders(status,order_date,customer_id,qty,total_price) 
+    $query = "Insert into orders(status,order_date,customer_acc_id,qty,total_price) 
     values(0,NOW(),:customer_id,:qty,:total_price)";
-    $binding = array(':customer_id' => $customer_id,':qty' => $order_qty, ':total_price' => $grandTotal);
+    $binding = array(':customer_id' => $customer_acc_id,':qty' => $order_qty, ':total_price' => $grandTotal);
     $order_rs = insert($query,$binding,$conn);
 
     //For Order Items

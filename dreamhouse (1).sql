@@ -1,13 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.1
--- http://www.phpmyadmin.net
+-- version 4.8.2
+-- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 01, 2017 at 06:48 AM
--- Server version: 10.1.19-MariaDB
--- PHP Version: 7.0.13
+-- Host: localhost:3306
+-- Generation Time: Sep 12, 2018 at 10:18 AM
+-- Server version: 5.6.41
+-- PHP Version: 5.6.37
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -19,6 +21,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `dreamhouse`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bank`
+--
+
+CREATE TABLE `bank` (
+  `id` int(11) NOT NULL,
+  `acc_name` varchar(255) NOT NULL,
+  `acc_no` int(11) NOT NULL,
+  `balance` decimal(11,0) NOT NULL,
+  `customer_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `bank`
+--
+
+INSERT INTO `bank` (`id`, `acc_name`, `acc_no`, `balance`, `customer_id`) VALUES
+(9, 'KBZ bank', 2147483647, '9782', 10),
+(10, 'KBZ bank', 22433423, '9880', 9),
+(11, 'KBZ Bank', 2147483647, '891', 11);
 
 -- --------------------------------------------------------
 
@@ -38,10 +63,15 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`coupon_code`, `description`, `coupon_amount`, `coupon_expire_date`) VALUES
+('CTN-23233', '20 % Discount', 20, '0000-00-00'),
+('CTN-2343243', 'Discount', 30, '0000-00-00'),
+('CTN-CC-2423', '20 discount', 20, '0000-00-00'),
+('CTN-CN-2342343', '20 discount', 20, '0000-00-00'),
 ('HQ12CTN', 'Cost Over $200', 20, '2017-10-21'),
 ('HQ13CTN', 'Cost Over 300', 30, '0000-00-00'),
 ('HQ14CTN', 'Cost Over 500', 80, '0000-00-00'),
-('HQ15CTN', 'Cost Over 600', 100, '0000-00-00');
+('HQ15CTN', 'Cost Over 600', 100, '0000-00-00'),
+('nm877', 'nn', 800, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -56,33 +86,17 @@ CREATE TABLE `customer` (
   `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `postal_code` int(11) NOT NULL,
   `address` text COLLATE utf8_unicode_ci NOT NULL,
-  `phone_no` int(11) NOT NULL
+  `phone_no` int(11) NOT NULL,
+  `customer_acc_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `firstName`, `lastName`, `email`, `postal_code`, `address`, `phone_no`) VALUES
-(11, 'Chit Thae', 'Naing', '', 92343, 'No 32, North Dagon', 2147483647),
-(12, 'Kyaw', 'Zint', '', 92343, 'No 31, Saine Lae Thar Yar street', 293423333),
-(13, 'Nyan Htun', 'Linn', '', 9233, 'No 76, North Okkalapa', 924234331),
-(14, 'Soe', 'Myint', '', 9333, 'No 32, South Dagon', 923322333),
-(15, 'Htet', 'Htet', '', 9324, 'No 88, Shwe Pyi Thar', 2147483647),
-(16, 'Thar', 'Chit', '', 9333, 'No 33, Hledan', 2147483647),
-(17, 'Chit Thae', 'Naing', '', 92334, 'chitthaenaing@gmail.com', 92323433),
-(18, 'Chit Thae', 'Naing', '', 23834, 'chitthaenaing@gmail.com', 2147483647),
-(19, 'Chit Thae', 'Naing', '', 93323, 'No 32, North Dagon', 932424233),
-(20, '', '', '', 0, '', 0),
-(21, '', '', '', 0, '', 0),
-(22, '', '', '', 0, '', 0),
-(23, '', '', '', 0, '', 0),
-(24, '', '', '', 0, '', 0),
-(25, '', '', '', 0, '', 0),
-(26, '', '', '', 0, '', 0),
-(27, '', '', '', 0, '', 0),
-(28, 'Wai', 'Phyo', '', 2323, 'No 33, Hledan', 923434),
-(29, 'Chit ', 'Thae', '', 29343, 'No 32, South Dagon', 923423423);
+INSERT INTO `customer` (`customer_id`, `firstName`, `lastName`, `email`, `postal_code`, `address`, `phone_no`, `customer_acc_id`) VALUES
+(56, 'Chit Thae', 'Naing', 'test@gmail.com', 0, '', 0, 10),
+(57, 'Test', 'User', 'customerone@gmail.com', 2122, 'North dagon', 2147483647, 11);
 
 -- --------------------------------------------------------
 
@@ -105,7 +119,9 @@ CREATE TABLE `customer_accounts` (
 --
 
 INSERT INTO `customer_accounts` (`customer_acc_id`, `first_name`, `last_name`, `email`, `password`, `gender`, `registered_date`) VALUES
-(3, 'Chit Thae', 'Naing', 'chitthaenaing@gmail.com', '7815696ecbf1c96e6894b779456d330e', 'Male', '2017-10-17');
+(9, 'Chit Thae ', 'Naing', 'chitthaenaing@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12'),
+(10, 'Chit Thae', 'Naing', 'test@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12'),
+(11, 'Test', 'User', 'customerone@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12');
 
 -- --------------------------------------------------------
 
@@ -120,22 +136,15 @@ CREATE TABLE `orders` (
   `delivered_date` date NOT NULL,
   `qty` int(11) NOT NULL,
   `total_price` int(11) NOT NULL,
-  `customer_id` int(11) NOT NULL
+  `customer_acc_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `status`, `order_date`, `delivered_date`, `qty`, `total_price`, `customer_id`) VALUES
-(10, '1', '2017-10-30', '2017-10-30', 0, 0, 11),
-(11, '1', '2017-10-30', '2017-10-30', 0, 0, 12),
-(12, '1', '2017-10-30', '2017-10-30', 0, 0, 13),
-(13, '1', '2017-10-30', '2017-10-30', 0, 0, 14),
-(14, '0', '2017-10-30', '0000-00-00', 2, 0, 15),
-(15, '1', '2017-10-30', '2017-10-30', 2, 0, 16),
-(16, '0', '2017-10-31', '0000-00-00', 4, 236, 18),
-(17, '0', '2017-11-01', '0000-00-00', 2, 803, 29);
+INSERT INTO `orders` (`order_id`, `status`, `order_date`, `delivered_date`, `qty`, `total_price`, `customer_acc_id`) VALUES
+(45, '1', '2018-09-12', '2018-09-12', 1, 110, 11);
 
 -- --------------------------------------------------------
 
@@ -154,24 +163,7 @@ CREATE TABLE `orders_items` (
 --
 
 INSERT INTO `orders_items` (`order_item_id`, `item_id`, `order_id`) VALUES
-(18, 4, 10),
-(19, 25, 10),
-(20, 24, 11),
-(21, 1, 11),
-(22, 15, 12),
-(23, 16, 12),
-(24, 12, 12),
-(25, 3, 13),
-(26, 23, 13),
-(27, 3, 14),
-(28, 1, 14),
-(29, 3, 15),
-(30, 1, 15),
-(34, 3, 16),
-(35, 25, 16),
-(36, 23, 16),
-(41, 4, 17),
-(42, 1, 17);
+(103, 23, 45);
 
 -- --------------------------------------------------------
 
@@ -186,23 +178,6 @@ CREATE TABLE `payments` (
   `account_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `customer_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `payments`
---
-
-INSERT INTO `payments` (`payment_id`, `payment_name`, `account_number`, `account_name`, `customer_id`) VALUES
-(4, 'credit', 2147483647, 'Chit Thae Naing', 11),
-(5, 'paypal', 0, '', 12),
-(6, 'credit', 2147483647, 'Nyan Htun Linn', 13),
-(7, 'paypal', 0, '', 14),
-(8, 'paypal', 0, '', 15),
-(9, 'credit', 2147483647, 'Thar Chit', 16),
-(10, 'paypal', 0, '', 17),
-(11, 'paypal', 0, '', 18),
-(12, 'paypal', 0, '', 19),
-(13, 'paypal', 0, '', 28),
-(14, 'paypal', 0, '', 29);
 
 -- --------------------------------------------------------
 
@@ -227,7 +202,7 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`item_id`, `item_name`, `item_code`, `price`, `item_image`, `discount_price`, `instock`, `categories`, `type`) VALUES
-(1, 'Men Slim White Shirt', 'P_001', 100, 'manshirt.jpg', 0, 10, 'Men', 'Shirts'),
+(1, 'Men Slim White Shirt', 'P_001', 100, 'manshirt.jpg', 8, 10, 'Men', 'Shirts'),
 (2, ' Plaid Cutout Pocket Long Sleeve Shirt', 'P_002', 80, 'menshirts8.jpg', 0, 5, 'Men', 'Shirts'),
 (3, 'casual shirts', 'P_003', 70, 'menshirt2.jpg', 0, 20, 'Men', 'Shirts'),
 (4, 'Long Sleeve Shirts', 'P_004', 90, 'menshirt4.jpg', 0, 20, 'Men', 'Shirts'),
@@ -273,6 +248,13 @@ CREATE TABLE `shipments` (
 --
 
 --
+-- Indexes for table `bank`
+--
+ALTER TABLE `bank`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `customer_id` (`customer_id`);
+
+--
 -- Indexes for table `coupon`
 --
 ALTER TABLE `coupon`
@@ -282,7 +264,8 @@ ALTER TABLE `coupon`
 -- Indexes for table `customer`
 --
 ALTER TABLE `customer`
-  ADD PRIMARY KEY (`customer_id`);
+  ADD PRIMARY KEY (`customer_id`),
+  ADD KEY `customer_acc_id` (`customer_acc_id`);
 
 --
 -- Indexes for table `customer_accounts`
@@ -295,7 +278,7 @@ ALTER TABLE `customer_accounts`
 --
 ALTER TABLE `orders`
   ADD PRIMARY KEY (`order_id`),
-  ADD KEY `customer_id` (`customer_id`);
+  ADD KEY `customer_acc_id` (`customer_acc_id`);
 
 --
 -- Indexes for table `orders_items`
@@ -330,44 +313,68 @@ ALTER TABLE `shipments`
 --
 
 --
+-- AUTO_INCREMENT for table `bank`
+--
+ALTER TABLE `bank`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+
 --
 -- AUTO_INCREMENT for table `customer_accounts`
 --
 ALTER TABLE `customer_accounts`
-  MODIFY `customer_acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `customer_acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+
 --
 -- AUTO_INCREMENT for table `orders_items`
 --
 ALTER TABLE `orders_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
   MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+
 --
 -- Constraints for dumped tables
 --
 
 --
+-- Constraints for table `bank`
+--
+ALTER TABLE `bank`
+  ADD CONSTRAINT `bank_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer_accounts` (`customer_acc_id`);
+
+--
+-- Constraints for table `customer`
+--
+ALTER TABLE `customer`
+  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`customer_acc_id`) REFERENCES `customer_accounts` (`customer_acc_id`);
+
+--
 -- Constraints for table `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customer_acc_id`) REFERENCES `customer_accounts` (`customer_acc_id`);
 
 --
 -- Constraints for table `orders_items`
@@ -387,6 +394,7 @@ ALTER TABLE `payments`
 --
 ALTER TABLE `shipments`
   ADD CONSTRAINT `shipments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

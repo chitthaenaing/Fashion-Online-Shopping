@@ -2,7 +2,7 @@
 include '../functions.php';
 $conn = connect();
 if($conn){
-	$query = 'Select * from orders left join customer on orders.customer_id = customer.customer_id';
+	$query = 'Select * from orders left join customer_accounts on orders.customer_acc_id = customer_accounts.customer_acc_id';
 	$result = get($query,$conn);
 }
 ?>
@@ -69,7 +69,7 @@ if($conn){
                         <?php while($row = $result->fetch()): ?>
                             <tr>
                         		<td><a href="vieworderitems.php?orderid=<?=$row['order_id']; ?>"><?=$row['order_id']; ?></a></td>
-                                <td><a href="customerDeliveryDetails.php?custid=<?=$row['customer_id']; ?>"><?=$row['firstName']." ".$row['lastName'];?></a></td>
+                                <td><a href="customerDeliveryDetails.php?custid=<?=$row['customer_acc_id']; ?>"><?=$row['first_name']." ".$row['last_name'];?></a></td>
                                 <td><?=$row['order_date'];?></td>
                                 <td><?=$row['delivered_date'];?></td>
                                 <td><?=$row['qty']; ?></td>
