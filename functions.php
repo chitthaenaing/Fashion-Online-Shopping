@@ -5,7 +5,7 @@
 			// Database Configuration 
 			$servername="localhost";
 			$username="root";
-			$password = "asd123";
+			$password = "";
 			$dbname="dreamhouse";
 	 	 	$conn=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
 	 	 	return $conn;

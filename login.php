@@ -7,19 +7,15 @@
 			//Validate Username and Password
 			$email = $_POST['email'];
 			$password = md5($_POST['password']);
-			$query = "Select * from customer_accounts left join bank on customer_accounts.customer_acc_id = bank.customer_id where email='$email' and password='$password'";
+			$query = "Select * from customer_accounts where email='$email' and password='$password'";
 			$user = get($query,$conn);
 			$status = $user->rowCount();
-		
-			// Set SESSION 
+			//Set SESSION 
 				while($row = $user->fetch()){
-					$_SESSION['customer_acc_id'] = $row['customer_acc_id'];
 					$_SESSION['first_name'] = $row['first_name'];
 					$_SESSION['last_name'] = $row['last_name'];
 					$_SESSION['email'] = $row['email'];
-					$_SESSION['bank_balance'] = $row['balance'];
 				}
-
 			if($status){	
 				header("location:index.php");
 			}else if($email=='admin@gmail.com' && $password  == md5(asd123)){
