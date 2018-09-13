@@ -69,7 +69,7 @@ if($conn){
                         <?php while($row = $result->fetch()): ?>
                             <tr>
                         		<td><a href="vieworderitems.php?orderid=<?=$row['order_id']; ?>"><?=$row['order_id']; ?></a></td>
-                                <td><a href="customerDeliveryDetails.php?custid=<?=$row['customer_acc_id']; ?>&orderid=<?=$row['order_id']?>"><?=$row['first_name']." ".$row['last_name'];?></a></td>
+                                <td><a href="customerDeliveryDetails.php?orderid=<?=$row['order_id']?>"><?=$row['first_name']." ".$row['last_name'];?></a></td>
                                 <td><?=$row['order_date'];?></td>
                                 <td><?=$row['delivered_date'];?></td>
                                 <td><?=$row['qty']; ?></td>

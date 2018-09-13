@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Sep 12, 2018 at 10:18 AM
--- Server version: 5.6.41
--- PHP Version: 5.6.37
+-- Host: localhost
+-- Generation Time: Sep 13, 2018 at 07:25 PM
+-- Server version: 10.1.34-MariaDB
+-- PHP Version: 7.0.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -42,8 +42,10 @@ CREATE TABLE `bank` (
 
 INSERT INTO `bank` (`id`, `acc_name`, `acc_no`, `balance`, `customer_id`) VALUES
 (9, 'KBZ bank', 2147483647, '9782', 10),
-(10, 'KBZ bank', 22433423, '9880', 9),
-(11, 'KBZ Bank', 2147483647, '891', 11);
+(10, 'KBZ bank', 22433423, '8542', 9),
+(11, 'KBZ Bank', 2147483647, '891', 11),
+(12, 'KBZ ', 2147483647, '891', 12),
+(14, 'KBZ', 32443323, '9426', 13);
 
 -- --------------------------------------------------------
 
@@ -63,10 +65,15 @@ CREATE TABLE `coupon` (
 --
 
 INSERT INTO `coupon` (`coupon_code`, `description`, `coupon_amount`, `coupon_expire_date`) VALUES
+('Code-3232', '100', 100, '0000-00-00'),
 ('CTN-23233', '20 % Discount', 20, '0000-00-00'),
 ('CTN-2343243', 'Discount', 30, '0000-00-00'),
+('CTN-234433', '30', 30, '0000-00-00'),
 ('CTN-CC-2423', '20 discount', 20, '0000-00-00'),
 ('CTN-CN-2342343', '20 discount', 20, '0000-00-00'),
+('CTN-COde=2334', '300', 300, '2018-09-30'),
+('CTN-Test-12', '100', 100, '2018-09-30'),
+('CTN-Test-13', '100', 100, '2018-09-01'),
 ('HQ12CTN', 'Cost Over $200', 20, '2017-10-21'),
 ('HQ13CTN', 'Cost Over 300', 30, '0000-00-00'),
 ('HQ14CTN', 'Cost Over 500', 80, '0000-00-00'),
@@ -87,16 +94,16 @@ CREATE TABLE `customer` (
   `postal_code` int(11) NOT NULL,
   `address` text COLLATE utf8_unicode_ci NOT NULL,
   `phone_no` int(11) NOT NULL,
-  `customer_acc_id` int(11) NOT NULL
+  `order_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `customer`
 --
 
-INSERT INTO `customer` (`customer_id`, `firstName`, `lastName`, `email`, `postal_code`, `address`, `phone_no`, `customer_acc_id`) VALUES
-(56, 'Chit Thae', 'Naing', 'test@gmail.com', 0, '', 0, 10),
-(57, 'Test', 'User', 'customerone@gmail.com', 2122, 'North dagon', 2147483647, 11);
+INSERT INTO `customer` (`customer_id`, `firstName`, `lastName`, `email`, `postal_code`, `address`, `phone_no`, `order_id`) VALUES
+(66, 'Chit Thae ', 'Naing', 'chitthaenaing@gmail.com', 2334, 'North Dagon', 23234333, 57),
+(67, 'Chit Thae ', 'Naing', 'chitthaenaing@gmail.com', 9923943, 'Yanogn', 32332, 58);
 
 -- --------------------------------------------------------
 
@@ -121,7 +128,9 @@ CREATE TABLE `customer_accounts` (
 INSERT INTO `customer_accounts` (`customer_acc_id`, `first_name`, `last_name`, `email`, `password`, `gender`, `registered_date`) VALUES
 (9, 'Chit Thae ', 'Naing', 'chitthaenaing@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12'),
 (10, 'Chit Thae', 'Naing', 'test@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12'),
-(11, 'Test', 'User', 'customerone@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12');
+(11, 'Test', 'User', 'customerone@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-12'),
+(12, 'Customer', 'Two', 'newcustomer@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-13'),
+(13, 'One', 'Customer', 'one@gmail.com', 'bfd59291e825b5f2bbf1eb76569f8fe7', 'Male', '2018-09-13');
 
 -- --------------------------------------------------------
 
@@ -144,7 +153,8 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `status`, `order_date`, `delivered_date`, `qty`, `total_price`, `customer_acc_id`) VALUES
-(45, '1', '2018-09-12', '2018-09-12', 1, 110, 11);
+(57, '1', '2018-09-13', '2018-09-13', 2, 215, 9),
+(58, '1', '2018-09-13', '2018-09-13', 2, 114, 9);
 
 -- --------------------------------------------------------
 
@@ -163,7 +173,10 @@ CREATE TABLE `orders_items` (
 --
 
 INSERT INTO `orders_items` (`order_item_id`, `item_id`, `order_id`) VALUES
-(103, 23, 45);
+(127, 23, 57),
+(128, 24, 57),
+(129, 2, 58),
+(130, 12, 58);
 
 -- --------------------------------------------------------
 
@@ -194,39 +207,32 @@ CREATE TABLE `products` (
   `discount_price` int(11) NOT NULL,
   `instock` int(11) NOT NULL,
   `categories` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Dumping data for table `products`
 --
 
-INSERT INTO `products` (`item_id`, `item_name`, `item_code`, `price`, `item_image`, `discount_price`, `instock`, `categories`, `type`) VALUES
-(1, 'Men Slim White Shirt', 'P_001', 100, 'manshirt.jpg', 8, 10, 'Men', 'Shirts'),
-(2, ' Plaid Cutout Pocket Long Sleeve Shirt', 'P_002', 80, 'menshirts8.jpg', 0, 5, 'Men', 'Shirts'),
-(3, 'casual shirts', 'P_003', 70, 'menshirt2.jpg', 0, 20, 'Men', 'Shirts'),
-(4, 'Long Sleeve Shirts', 'P_004', 90, 'menshirt4.jpg', 0, 20, 'Men', 'Shirts'),
-(6, 'Doublju Mens Dress Shirt with Slim Fit', 'P_005', 120, 'menshirts9.jpg', 100, 5, 'Men', 'Shirts'),
-(7, 'Double color stitching Design Shirt', 'P_006', 150, 'menshirts10.jpg', 0, 20, 'Men', 'Shirts'),
-(8, 'Men Black Pants', 'P_007', 120, 'menpants.jpg', 0, 20, 'Men', 'Pants'),
-(9, 'Cool Men Pants', 'P_008', 100, 'menpants2.jpg', 0, 10, 'Men', 'Pants'),
-(10, 'Modern Men Pants', 'P_008', 110, 'menpants3.jpg', 0, 40, 'Men', 'Pants'),
-(11, 'Gentleman Pants', 'P_009', 130, 'menpants4.jpg', 0, 20, 'Men', 'Pants'),
-(12, ' Gear Dot Printing Shirt', 'P_010', 14, 'womenshirt.jpg', 0, 10, 'Women', 'Shirts'),
-(13, 'Cotton T Shirt', 'P_011', 15, 'womenshirt2.jpg', 0, 10, 'Women', 'Shirts'),
-(14, 'casual Summer Blous', 'P_012', 20, 'menshirt3.jpg', 0, 5, 'Men', 'Shirts'),
-(15, 'plaid shirts', 'P_013', 80, 'womenshirt4.jpg', 0, 10, 'Women', 'Shirts'),
-(16, 'Shirt blouses', 'P_014', 100, 'womenshirt5.jpg', 0, 10, 'Women', 'Shirts'),
-(17, 'Black Harem Pants', 'P_015', 110, 'womenpants.jpg', 0, 10, 'Women', 'Pants'),
-(18, 'New Big Flower Fashion Pant', 'P_016', 100, 'womenpants2.jpg', 0, 10, 'Women', 'Pants'),
-(19, 'Jean Style', 'P_017', 100, 'womenpants3.jpg', 0, 4, 'Women', 'Pants'),
-(20, 'T Shirt', 'P_018', 50, 'kidshirt.jpg', 20, 3, 'Kids', 'Shirts'),
-(21, 'Long Sleeve Shirt', 'P_019', 80, 'kidshirt2.jpg', 0, 2, 'Kids', 'Shirts'),
-(22, 'Mickey Mouse Long Sleeve Shirt', 'P_020', 70, 'kidshirt3.jpg', 50, 2, 'Kids', 'Shirts'),
-(23, 'Fashion Shirt', 'P_021', 110, 'kidshirt4.jpg', 90, 4, 'Kids', 'Shirts'),
-(24, 'Men Jeans', 'P_022', 120, 'menspants5.jpg', 100, 5, 'Men', 'Pants'),
-(25, 'Women Pants', 'P_023', 80, 'womenPants4.jpeg', 50, 3, 'Women', 'Pants'),
-(26, 'kids Pant', 'P_024', 90, 'kidsPants.jpg', 0, 5, 'Kids', 'Pants');
+INSERT INTO `products` (`item_id`, `item_name`, `item_code`, `price`, `item_image`, `discount_price`, `instock`, `categories`, `type`, `status`) VALUES
+(2, ' Plaid Cutout Pocket Long Sleeve Shirt', 'P_002', 80, 'menshirts8.jpg', 0, 6, 'Men', 'Shirts', 1),
+(4, 'Long Sleeve Shirts', 'P_004', 90, 'menshirt4.jpg', 0, 20, 'Men', 'Shirts', 1),
+(6, 'Doublju Mens Dress Shirt with Slim Fit', 'P_005', 120, 'menshirts9.jpg', 100, 5, 'Men', 'Shirts', 1),
+(7, 'Double color stitching Design Shirt', 'P_006', 150, 'menshirts10.jpg', 0, 20, 'Men', 'Shirts', 1),
+(9, 'Cool Men Pants', 'P_008', 100, 'menpants2.jpg', 0, 10, 'Men', 'Pants', 1),
+(10, 'Modern Men Pants', 'P_008', 110, 'menpants3.jpg', 0, 40, 'Men', 'Pants', 1),
+(12, ' Gear Dot Printing Shirt', 'P_010', 14, 'womenshirt.jpg', 0, 10, 'Women', 'Shirts', 1),
+(13, 'Cotton T Shirt', 'P_011', 15, 'womenshirt2.jpg', 0, 10, 'Women', 'Shirts', 1),
+(17, 'Black Harem Pants', 'P_015', 110, 'womenpants.jpg', 0, 10, 'Women', 'Pants', 1),
+(18, 'New Big Flower Fashion Pant', 'P_016', 100, 'womenpants2.jpg', 0, 10, 'Women', 'Pants', 1),
+(19, 'Jean Style', 'P_017', 100, 'womenpants3.jpg', 0, 4, 'Women', 'Pants', 1),
+(20, 'T Shirt', 'P_018', 50, 'kidshirt.jpg', 20, 3, 'Kids', 'Shirts', 1),
+(21, 'Long Sleeve Shirt', 'P_019', 80, 'kidshirt2.jpg', 0, 2, 'Kids', 'Shirts', 1),
+(22, 'Mickey Mouse Long Sleeve Shirt', 'P_020', 70, 'kidshirt3.jpg', 50, 2, 'Kids', 'Shirts', 1),
+(23, 'Fashion Shirt', 'P_021', 110, 'kidshirt4.jpg', 90, 4, 'Kids', 'Shirts', 1),
+(24, 'Men Jeans', 'P_022', 120, 'menspants5.jpg', 100, 5, 'Men', 'Pants', 1),
+(25, 'Women Pants', 'P_023', 80, 'womenPants4.jpeg', 50, 3, 'Women', 'Pants', 1);
 
 -- --------------------------------------------------------
 
@@ -265,7 +271,7 @@ ALTER TABLE `coupon`
 --
 ALTER TABLE `customer`
   ADD PRIMARY KEY (`customer_id`),
-  ADD KEY `customer_acc_id` (`customer_acc_id`);
+  ADD KEY `customer_ibfk_1` (`order_id`);
 
 --
 -- Indexes for table `customer_accounts`
@@ -316,31 +322,31 @@ ALTER TABLE `shipments`
 -- AUTO_INCREMENT for table `bank`
 --
 ALTER TABLE `bank`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `customer`
 --
 ALTER TABLE `customer`
-  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=58;
+  MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `customer_accounts`
 --
 ALTER TABLE `customer_accounts`
-  MODIFY `customer_acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `customer_acc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
 
 --
 -- AUTO_INCREMENT for table `orders_items`
 --
 ALTER TABLE `orders_items`
-  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `order_item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=131;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -368,7 +374,7 @@ ALTER TABLE `bank`
 -- Constraints for table `customer`
 --
 ALTER TABLE `customer`
-  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`customer_acc_id`) REFERENCES `customer_accounts` (`customer_acc_id`);
+  ADD CONSTRAINT `customer_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`);
 
 --
 -- Constraints for table `orders`

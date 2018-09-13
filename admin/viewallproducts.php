@@ -3,7 +3,7 @@ session_start();
 require '../functions.php';
 $conn = connect();
 if($conn){
-	$query = 'Select * from products';
+	$query = 'Select * from products where status = 1';
 	$result = get($query,$conn);
 
 }

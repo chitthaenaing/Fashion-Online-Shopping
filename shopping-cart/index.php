@@ -15,7 +15,16 @@ if($_GET['hasCart']) {
     $rs = $stmt->rowCount();
     if($rs){
         while($row = $stmt->fetch()){
-        $couponAmount = $row['coupon_amount'];
+        $datetime1 = date_create(date("Y-m-d"));
+        $datetime2 = date_create($row['coupon_expire_date']);
+        $interval = $datetime1->diff($datetime2);
+        $diff = $interval->format('%R%a');
+        if($diff > 0) {
+          $couponAmount = $row['coupon_amount'];  
+        }else {
+          echo "<script>alert('Sorry! Your Coupon Code has expired');</script>"; 
+        }
+        
       }  
     }else echo "<script>alert('Your Coupon Code is invalid');</script>";
     

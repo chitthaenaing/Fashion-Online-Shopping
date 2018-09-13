@@ -19,8 +19,8 @@ if($conn){
 		}
 		$instock = $_POST['instock'];
 		
-		$query = 'Insert into products(item_name,item_code,price,item_image,discount_price,instock,categories,type)
-		values(:productName,:productCode,:price,:name,:discountPrice,:instock,:cat,:productType)';
+		$query = 'Insert into products(item_name,item_code,price,item_image,discount_price,instock,categories,type,status)
+		values(:productName,:productCode,:price,:name,:discountPrice,:instock,:cat,:productType, :status)';
 		$binding=array(
 			':productName' => $productName,
 			':productCode' => $productCode,
@@ -29,7 +29,8 @@ if($conn){
 			':discountPrice' => $discountPrice,
 			':instock' => $instock,
 			':cat' => $checkCat,
-			':productType' =>  $productType
+			':productType' =>  $productType,
+			':status' => 1
 			);
 		$res = insert($query,$binding,$conn);
 		if($res) echo "<script>alert('Saved Successfully');</script>";

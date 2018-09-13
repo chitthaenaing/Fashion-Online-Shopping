@@ -113,7 +113,10 @@ if($conn){
 		$('#calendar').datepicker({
 		});
 
-		$('#couponexp').datepicker();
+		$('#couponexp').datepicker({
+			format: 'yyyy-mm-dd'
+		});
+
 
 		!function ($) {
 		    $(document).on("click","ul.nav li.parent > a > span.icon", function(){          
