@@ -12,29 +12,26 @@ $email  = $_POST['email'];
 $postal_code = $_POST['postal_code'];
 $address = $_POST['address'];
 $contactno = $_POST['contact_no'];
-$payment = $_POST['payment'];
-$account_name =$_POST['account_name'];
-$account_no = $_POST['account_no'];
 $grandTotal = $_GET['grandTotal'];
 
 //To check bank account balance
 if($bank_balance < $grandTotal) {
   echo "<script>alert('Your bank balance is low');
-  window.location.href='index.php'</script>";
+  window.location.href='index.php?hasCart=true'</script>";
 }else {
-
-  //For Customer
-  $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, customer_acc_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :customer_acc_id)";
-  $binding = array(
-    ':firstName'  => $firstName,
-    ':lastName' => $lastName,
-    ':email' => $email,
-    ':postal_code' => $postal_code,
-    ':address' => $address,
-    ':phone_no' => $contactno,
-    ':customer_acc_id'=>$customer_acc_id
-    );
-    $customer_rs = insert($query,$binding,$conn);
+    //For Customer
+    $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, customer_acc_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :customer_acc_id)";
+    $binding = array(
+      ':firstName'  => $firstName,
+      ':lastName' => $lastName,
+      ':email' => $email,
+      ':postal_code' => $postal_code,
+      ':address' => $address,
+      ':phone_no' => $contactno,
+      ':customer_acc_id'=>$customer_acc_id
+      );
+      $customer_rs = insert($query,$binding,$conn);
+ 
 
     //For Orders
     $customer_id = $conn->lastInsertId();

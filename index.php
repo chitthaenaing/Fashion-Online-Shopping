@@ -2,7 +2,7 @@
 	session_start();
 	require 'functions.php';
 	$conn = connect();
-	$keywords = $_GET['search'];
+	$keywords = isset($_GET['search']) ? $_GET['search']:'';
 
 	if($conn){
 

@@ -128,7 +128,7 @@
 									<label for="account_name">Account Name</label>
 								</div>
 								<div class="col-md-6">
-									<input type="text" id="account_name" class="form-control margin-auto" name="account_name" value="<?= $res_bank_info[acc_name]?>" disabled>
+									<input type="text" id="account_name" class="form-control margin-auto" name="account_name" value="<?= $res_bank_info['acc_name']?>" disabled>
 								</div>
 							</div>
 		
@@ -137,7 +137,7 @@
 									<label for="account_no">Account No</label>
 								</div>
 								<div class="col-md-6">
-									<input type="number" id="account_no" class="form-control margin-auto" name="account_no" value="<?= $res_bank_info[acc_no]?>" disabled>
+									<input type="number" id="account_no" class="form-control margin-auto" name="account_no" value="<?= $res_bank_info['acc_no']?>" disabled>
 								</div>
 							</div>
 
@@ -146,7 +146,7 @@
 									<label for="balance">Balance ($)</label>
 								</div>
 								<div class="col-md-6">
-									<input type="number" id="balance" class="form-control margin-auto" name="balance" aria-describedby="basic-addon2" value="<?= $res_bank_info[balance]?>" disabled>
+									<input type="number" id="balance" class="form-control margin-auto" name="balance" aria-describedby="basic-addon2" value="<?= $res_bank_info['balance']?>" disabled>
 								</div>
 							</div>
 
@@ -160,7 +160,7 @@
 									<label for="account_name">Account Name</label>
 								</div>
 								<div class="col-md-6">
-									<input type="text" id="account_name" class="form-control margin-auto" name="account_name" value="<?= $res_bank_info[acc_name]?>" disabled>
+									<input type="text" id="account_name" class="form-control margin-auto" name="account_name" value="<?= $res_bank_info['acc_name']?>" disabled>
 								</div>
 							</div>
 		
@@ -169,7 +169,7 @@
 									<label for="account_no">Account No</label>
 								</div>
 								<div class="col-md-6">
-									<input type="number" id="account_no" class="form-control margin-auto" name="account_no" value="<?= $res_bank_info[acc_no]?>" disabled>
+									<input type="number" id="account_no" class="form-control margin-auto" name="account_no" value="<?= $res_bank_info['acc_no']?>" disabled>
 								</div>
 							</div>
 

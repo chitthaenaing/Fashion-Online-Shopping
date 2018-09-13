@@ -109,12 +109,12 @@ if($conn){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label>Name</label>
-									<input type="text" name="productname" class="form-control" value="<?= $rs_product[item_name]?>">
+									<input type="text" name="productname" class="form-control" value="<?= $rs_product['item_name']?>">
 								</div>
 
 								<div class="form-group col-md-6">
 									<label>Product Code</label>
-									<input type="text" name="productcode" class="form-control" value="<?= $rs_product[item_code]?>">
+									<input type="text" name="productcode" class="form-control" value="<?= $rs_product['item_code']?>">
 								</div>
 							</div>
 
@@ -122,13 +122,13 @@ if($conn){
 								<div class="form-group col-md-6">
 									<label>Categories</label>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Men" <?= $rs_product[categories] == 'Men' ? checked : ''?>>Men</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Men" <?= $rs_product['categories'] == 'Men' ? 'checked' : ''?>>Men</label>	
 									</div>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Women" <?= $rs_product[categories] == 'Women' ? checked : ''?>>Women</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Women" <?= $rs_product['categories'] == 'Women' ? 'checked' : ''?>>Women</label>	
 									</div>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Kids" <?= $rs_product[categories] == 'Kids' ? checked : ''?>>Kids</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Kids" <?= $rs_product['categories'] == 'Kids' ? 'checked' : ''?>>Kids</label>	
 									</div>
 								</div>
 
@@ -136,10 +136,10 @@ if($conn){
 									<label>Type</label>
 									<select name="type" class="form-control">
 										<option selected>Choose Type</option>
-										<option value="Shirts" <?= $rs_product[type] == 'Shirts' ? selected : ''?>>Shirts</option>
-										<option value="Pants" <?= $rs_product[type] == 'Women' ? selected : ''?>>Pants</option>
-										<option value="Boots" <?= $rs_product[type] == 'Women' ? selected : ''?>>Boots</option>
-										<option value="Dresses" <?= $rs_product[type] == 'Women' ? selected : ''?>>Dresses</option>
+										<option value="Shirts" <?= $rs_product['type'] == 'Shirts' ? 'selected' : ''?>>Shirts</option>
+										<option value="Pants" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Pants</option>
+										<option value="Boots" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Boots</option>
+										<option value="Dresses" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Dresses</option>
 									</select>
 								</div>
 							</div>
@@ -147,21 +147,21 @@ if($conn){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="price">Price</label>
-									<input type="text" name="price" class="form-control" id="price" value="<?= $rs_product[price]?>">
+									<input type="text" name="price" class="form-control" id="price" value="<?= $rs_product['price']?>">
 									
 								</div>
 
 								<div class="form-group col-md-6">
 									<label for="discount_price">Discount Price</label>
-									<input type="text" name="discount_price" class="form-control" id="discount_price" value="<?= $rs_product[discount_price]?>">
+									<input type="text" name="discount_price" class="form-control" id="discount_price" value="<?= $rs_product['discount_price']?>">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="form-group col-md-12">
-									<img src="photo/<?= $rs_product[item_image] ?>" alt="" height="150px">
+									<img src="photo/<?= $rs_product['item_image'] ?>" alt="" height="150px">
 									<!-- <label for="image">Image</label> -->
-									<input type="file" name="photo" id="image" value="<?= $rs_product[item_image] ?>"><br/>
+									<input type="file" name="photo" id="image" value="<?= $rs_product['item_image'] ?>"><br/>
 								</div>
 							</div>
 
@@ -169,7 +169,7 @@ if($conn){
 							<div class="row">
 								<div class="form-group col-md-2">
 									<label for="instock">Instock</label>
-									<input type="text" class="form-control" name="instock" id="instock" id="instock" value="<?= $rs_product[instock] ?>"><br/>	
+									<input type="text" class="form-control" name="instock" id="instock" id="instock" value="<?= $rs_product['instock'] ?>"><br/>	
 									<input type="submit" class="btn btn-lg btn-primary" value="Update" name="updateProduct">
 								</div>
 							</div>

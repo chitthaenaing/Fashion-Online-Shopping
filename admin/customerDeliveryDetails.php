@@ -3,8 +3,9 @@ include '../functions.php';
 $conn = connect();
 if($conn){
 	$custId = $_GET['custid'];
+	$orderId = $_GET['orderid'];
 	// $query = 'Select * from customer left join payments on customer.customer_id = payments.customer_id where customer.customer_id='.$custId;
-	$query = 'Select * from customer_accounts left join bank on customer_accounts.customer_acc_id = bank.customer_id left join customer on customer_accounts.customer_acc_id = customer.customer_acc_id where customer_accounts.customer_acc_id='.$custId;
+	$query = 'Select * from customer_accounts left join bank on customer_accounts.customer_acc_id = bank.customer_id left join customer on customer_accounts.customer_acc_id = customer.customer_acc_id left join orders on customer_accounts.customer_acc_id = orders.customer_acc_id where customer_accounts.customer_acc_id='.$custId.' and orders.order_id='.$orderId;
 	$result = get($query,$conn);
 	while($row = $result->fetch()):
 

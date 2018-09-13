@@ -2,6 +2,9 @@
 	$cart = 0;
 	if (isset($_SESSION['cart'])){
 	$cart=count($_SESSION['cart']);
+	$hasCart = true;
+	}else {
+		$hasCart = false;
 	}
 
 ?>
@@ -39,7 +42,7 @@
 		        <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 		        <?php } ?>
 		        <?php if(isset($_SESSION['email'])): ?>
-		        <li><a href="shopping-cart/index.php"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup><span class="badge"><?= $cart; ?></span></sup> </a></li>
+		        <li><a href="shopping-cart/index.php?hasCart=<?=$hasCart;?>"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup><span class="badge"><?= $cart; ?></span></sup> </a></li>
 		    	<?php endif; ?>
       		</ul>
 		</div>

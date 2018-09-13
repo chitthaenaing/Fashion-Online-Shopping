@@ -88,15 +88,15 @@
 				</a>
 				<ul class="children collapse" id="reports">
 					<li>
-						<a class="" href="viewmonthlyreport.php">
-							 View Monthly Report
+						<a class="" href="viewmonthlyandyearlyreport.php">
+							 View Monthly and Yearly Report
 						</a>
 					</li>
-					<li>
+					<!-- <li>
 						<a class="" href="viewyearlyreport.php">
 							 View Yearly Report
 						</a>
-					</li>
+					</li> -->
 					
 				</ul>
 			</li>
