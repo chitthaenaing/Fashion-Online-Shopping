@@ -46,3 +46,24 @@ margin-right: 2%;
 h5{
 	width: 70%;
 }
+
+.text-align-center {
+	text-align: center;
+}
+
+.text-align-left {
+	text-align: left;
+}
+
+.hide {
+	display: none;
+}
+
+.margin-auto {
+	margin: 0px auto;
+}
+
+.margin-bottom-20px {
+	margin-bottom: 20px;
+}
+

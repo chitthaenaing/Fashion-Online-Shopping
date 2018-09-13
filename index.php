@@ -2,9 +2,10 @@
 	session_start();
 	require 'functions.php';
 	$conn = connect();
-
+	$keywords = $_GET['search'];
 
 	if($conn){
+
 	//New Products
 	$query = 'Select * from products order by item_id desc limit 4';
 	$new = get($query,$conn);
@@ -20,7 +21,14 @@
 	//Kids Products
 	$query = "Select * from products where categories ='Kids' limit 4";
 	$kids = get($query,$conn);
-}
+	
+		if(isset($_GET['search']))	{
+			//Search Products
+			$query = "Select * from products where item_name like '%".$keywords."%'";
+			$result = get($query, $conn);
+		}
+	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -79,6 +87,36 @@
 				</div>
 
 		</div>
+		
+		<?php if(isset($_GET['search']) && $keywords != ''): ?>
+		<div class="panel panel-default" style="margin-top:2%">
+			<div class="panel-heading">
+				Search Results
+			</div>
+
+			<div class="panel-body">
+				<?php if($result->rowCount() > 0): ?>
+				<?php while($row = $result->fetch()): ?>
+					<?php $row['item_name'];?>
+				<div class="col-md-3" style="margin-bottom: 50px;">
+					<img src="admin/photo/<?=$row['item_image']; ?>" width="200px" height="220px">
+					<p><?= $row['item_name']; ?></p>
+					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
+					
+					<?php if(isset($_SESSION['email'])): ?>
+					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
+				</div>
+				<?php endwhile; ?>	
+				<?php else: ?>
+				<div class="result_not_found">
+					<p class="text-danger">Result Not Found</p>
+				</div>
+				<?php endif; ?>
+
+			</div>
+		</div>
+		<?php else: ?>
 
 		<div class="panel panel-default" style="margin-top:2%">
 			<div class="panel-heading">
@@ -92,7 +130,9 @@
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
 					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
 				
 				</div>
 				<?php endwhile; ?>			
@@ -110,8 +150,10 @@
 					<img src="admin/photo/<?=$row['item_image']; ?>" width="200px" height="220px">
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
-				
+					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
 				</div>
 				<?php endwhile; ?>			
 			</div>
@@ -128,8 +170,11 @@
 					<img src="admin/photo/<?=$row['item_image']; ?>" width="200px" height="220px">
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
-				
+					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
+					<?php endif; ?>
+
 				</div>
 				<?php endwhile; ?>			
 			</div>
@@ -147,13 +192,16 @@
 					<p><?= $row['item_name']; ?></p>
 					<p>Price = $<?= $row['price']; ?>&nbsp;&nbsp;&nbsp;Discount Price = $ <?= $row['discount_price']; ?></p>
 					
+					<?php if(isset($_SESSION['email'])): ?>
 					<a href="add-to-cart.php?page=index&&id=<?= $row['item_id']; ?>" class="btn btn-md btn-primary" id="addtocart" >Add to Cart</a>
-
+					<?php endif; ?>
+					
 				</div>
 				<?php endwhile; ?>			
 			</div>
 			
 		</div>
+		<?php endif; ?>
 	
 	</div>
 	<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
