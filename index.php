@@ -2,6 +2,10 @@
 	session_start();
 	require 'functions.php';
 	$conn = connect();
+<<<<<<< HEAD
+=======
+	$keywords = isset($_GET['search']) ? $_GET['search']:'';
+>>>>>>> develop
 
 
 	if($conn){

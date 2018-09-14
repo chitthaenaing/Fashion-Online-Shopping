@@ -18,7 +18,7 @@
 				}
 			if($status){	
 				header("location:index.php");
-			}else if($email=='admin@gmail.com' && $password  == md5(asd123)){
+			}else if($email=='admin@gmail.com' && $password  == md5('asd123')){
 				$_SESSION['email'] = $email;
 				header("location:admin/dashboard.php");
 			}else{

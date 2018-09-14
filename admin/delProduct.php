@@ -5,11 +5,11 @@ if(isset($_GET['id'])){
 	//To get DB Connection
 	$conn = connect();
 
-	$query = 'Delete from products where item_id=:id';
-	$binding = array(':id'=>$id);
-	$stmt = $conn ->prepare($query);
-	$stmt->execute($binding);
-	header("location:viewallprouducts.php");
+	if($conn) {
+		$query = "Update products SET status=0 where item_id='$id'";
+		get($query,$conn);
+		header("location:viewallproducts.php");
+	}
 }
 
 ?>

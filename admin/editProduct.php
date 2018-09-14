@@ -4,7 +4,15 @@ require '../functions.php';
 $conn = connect();
 
 if($conn){
-	if(isset($_POST['createProduct'])){
+	
+	$product_id = $_GET['id'];
+
+	//To get product info
+	$query = "Select * from products where item_id = '$product_id'";
+	$get_product = get($query, $conn);
+	$rs_product = $get_product->fetch();
+
+	if(isset($_POST['updateProduct'])) {
 		$productName = $_POST['productname'];
 		$productCode = $_POST['productcode'];
 		$checkCat = implode(",",$_POST['check_cat']);
@@ -19,21 +27,39 @@ if($conn){
 		}
 		$instock = $_POST['instock'];
 		
-		$query = 'Insert into products(item_name,item_code,price,item_image,discount_price,instock,categories,type,status)
-		values(:productName,:productCode,:price,:name,:discountPrice,:instock,:cat,:productType, :status)';
-		$binding=array(
-			':productName' => $productName,
-			':productCode' => $productCode,
-			':price' => $price, 
-			':name' => $name,
-			':discountPrice' => $discountPrice,
-			':instock' => $instock,
-			':cat' => $checkCat,
-			':productType' =>  $productType,
-			':status' => 1
-			);
+		if(is_uploaded_file($_FILES['photo']['tmp_name'])) {
+			$query = "update products set item_name = :productName, item_code = :productCode, price = :price ,item_image = :name, discount_price = :discountPrice , instock = :instock, categories = :cat,type = :productType where item_id= '$product_id'";
+
+			$binding=array(
+				':productName' => $productName,
+				':productCode' => $productCode,
+				':price' => $price, 
+				':name' => $name,
+				':discountPrice' => $discountPrice,
+				':instock' => $instock,
+				':cat' => $checkCat,
+				':productType' =>  $productType
+				);
+		}else {
+			$query = "update products set item_name = :productName, item_code = :productCode, price = :price, discount_price = :discountPrice , instock = :instock, categories = :cat,type = :productType where item_id= '$product_id'";
+
+			$binding=array(
+				':productName' => $productName,
+				':productCode' => $productCode,
+				':price' => $price, 
+				':discountPrice' => $discountPrice,
+				':instock' => $instock,
+				':cat' => $checkCat,
+				':productType' =>  $productType
+				);
+		}
+		
+		
 		$res = insert($query,$binding,$conn);
-		if($res) echo "<script>alert('Saved Successfully');</script>";
+		if($res) {
+			echo "<script>alert('Update Successfully');
+			window.location.href='viewallproducts.php'</script>";
+		}
 	}
 }
 ?>
@@ -77,18 +103,18 @@ if($conn){
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-heading">New Products</div>
+					<div class="panel-heading">Update Product</div>
 					<div class="panel-body">
 						<form action="#" method="post" enctype="multipart/form-data" > 
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label>Name</label>
-									<input type="text" name="productname" class="form-control">
+									<input type="text" name="productname" class="form-control" value="<?= $rs_product['item_name']?>">
 								</div>
 
 								<div class="form-group col-md-6">
 									<label>Product Code</label>
-									<input type="text" name="productcode" class="form-control">
+									<input type="text" name="productcode" class="form-control" value="<?= $rs_product['item_code']?>">
 								</div>
 							</div>
 
@@ -96,13 +122,13 @@ if($conn){
 								<div class="form-group col-md-6">
 									<label>Categories</label>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Men">Men</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Men" <?= $rs_product['categories'] == 'Men' ? 'checked' : ''?>>Men</label>	
 									</div>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Women">Women</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Women" <?= $rs_product['categories'] == 'Women' ? 'checked' : ''?>>Women</label>	
 									</div>
 									<div class="checkbox">
-										<label><input type="checkbox" name="check_cat[]" value="Kids">Kids</label>	
+										<label><input type="checkbox" name="check_cat[]" value="Kids" <?= $rs_product['categories'] == 'Kids' ? 'checked' : ''?>>Kids</label>	
 									</div>
 								</div>
 
@@ -110,10 +136,10 @@ if($conn){
 									<label>Type</label>
 									<select name="type" class="form-control">
 										<option selected>Choose Type</option>
-										<option value="Shirts">Shirts</option>
-										<option value="Pants">Pants</option>
-										<option value="Boots">Boots</option>
-										<option value="Dresses">Dresses</option>
+										<option value="Shirts" <?= $rs_product['type'] == 'Shirts' ? 'selected' : ''?>>Shirts</option>
+										<option value="Pants" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Pants</option>
+										<option value="Boots" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Boots</option>
+										<option value="Dresses" <?= $rs_product['type'] == 'Women' ? 'selected' : ''?>>Dresses</option>
 									</select>
 								</div>
 							</div>
@@ -121,20 +147,21 @@ if($conn){
 							<div class="row">
 								<div class="form-group col-md-6">
 									<label for="price">Price</label>
-									<input type="text" name="price" class="form-control" id="price">
+									<input type="text" name="price" class="form-control" id="price" value="<?= $rs_product['price']?>">
 									
 								</div>
 
 								<div class="form-group col-md-6">
 									<label for="discount_price">Discount Price</label>
-									<input type="text" name="discount_price" class="form-control" id="discount_price">
+									<input type="text" name="discount_price" class="form-control" id="discount_price" value="<?= $rs_product['discount_price']?>">
 								</div>
 							</div>
 
 							<div class="row">
 								<div class="form-group col-md-12">
-									<label for="image">Image</label>
-									<input type="file" name="photo" id="image"><br/>
+									<img src="photo/<?= $rs_product['item_image'] ?>" alt="" height="150px">
+									<!-- <label for="image">Image</label> -->
+									<input type="file" name="photo" id="image" value="<?= $rs_product['item_image'] ?>"><br/>
 								</div>
 							</div>
 
@@ -142,8 +169,8 @@ if($conn){
 							<div class="row">
 								<div class="form-group col-md-2">
 									<label for="instock">Instock</label>
-									<input type="text" class="form-control" name="instock" id="instock" id="instock"><br/>	
-									<input type="submit" class="btn btn-lg btn-primary" value="Insert" name="createProduct">
+									<input type="text" class="form-control" name="instock" id="instock" id="instock" value="<?= $rs_product['instock'] ?>"><br/>	
+									<input type="submit" class="btn btn-lg btn-primary" value="Update" name="updateProduct">
 								</div>
 							</div>
 						</form>

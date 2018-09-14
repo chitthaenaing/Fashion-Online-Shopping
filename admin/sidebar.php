@@ -82,6 +82,25 @@
 				</ul>
 			</li>
 
+			<li class="parent ">
+				<a href="#">
+					<span data-toggle="collapse" href="#reports"><svg class="glyph stroked chevron-down"><use xlink:href="#stroked-chevron-down"></use></svg></span> Reports 
+				</a>
+				<ul class="children collapse" id="reports">
+					<li>
+						<a class="" href="viewmonthlyandyearlyreport.php">
+							 View Monthly and Yearly Report
+						</a>
+					</li>
+					<!-- <li>
+						<a class="" href="viewyearlyreport.php">
+							 View Yearly Report
+						</a>
+					</li> -->
+					
+				</ul>
+			</li>
+
 			
 			<li role="presentation" class="divider"></li>
 			<li><a href="../logout.php"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> Logout</a></li>

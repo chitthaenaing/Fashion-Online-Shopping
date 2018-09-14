@@ -2,22 +2,35 @@
 session_start();
 require '../functions.php';
 $conn = connect();
-$couponAmount = 0;
-if(isset($_POST['coupon_use'])){
-  $couponCode = $_POST['coupon_code'];
-  //Get Coupon Amount
-  $query = "Select * from coupon where coupon_code=:couponCode";
-  $binding = array(':couponCode' => $couponCode);
-  $stmt = $conn->prepare($query);
-  $stmt->execute($binding);
-  $rs = $stmt->rowCount();
-  if($rs){
-      while($row = $stmt->fetch()){
-      $couponAmount = $row['coupon_amount'];
-    }  
-  }else echo "<script>alert('Your Coupon Code is invalid');</script>";
-  
 
+if($_GET['hasCart']) {
+  $couponAmount = 0;
+  if(isset($_POST['coupon_use'])){
+    $couponCode = $_POST['coupon_code'];
+    //Get Coupon Amount
+    $query = "Select * from coupon where coupon_code=:couponCode";
+    $binding = array(':couponCode' => $couponCode);
+    $stmt = $conn->prepare($query);
+    $stmt->execute($binding);
+    $rs = $stmt->rowCount();
+    if($rs){
+        while($row = $stmt->fetch()){
+        $datetime1 = date_create(date("Y-m-d"));
+        $datetime2 = date_create($row['coupon_expire_date']);
+        $interval = $datetime1->diff($datetime2);
+        $diff = $interval->format('%R%a');
+        if($diff > 0) {
+          $couponAmount = $row['coupon_amount'];  
+        }else {
+          echo "<script>alert('Sorry! Your Coupon Code has expired');</script>"; 
+        }
+        
+      }  
+    }else echo "<script>alert('Your Coupon Code is invalid');</script>";
+    
+  } 
+}else {
+  echo "<script>alert('There is no item to checkout!');window.location.href='../index.php';</script>";
 }
 
 ?>

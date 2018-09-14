@@ -2,7 +2,12 @@
 session_start();
 require '../functions.php';
 $conn = connect();
+<<<<<<< HEAD
 
+=======
+$bank_balance = $_SESSION['bank_balance'];
+$customer_acc_id = $_SESSION['customer_acc_id'];
+>>>>>>> develop
 if(isset($_POST['order'])){
 
 $firstName = $_POST['first_name'];
@@ -11,9 +16,6 @@ $email  = $_POST['email'];
 $postal_code = $_POST['postal_code'];
 $address = $_POST['address'];
 $contactno = $_POST['contact_no'];
-$payment = $_POST['payment'];
-$account_name =$_POST['account_name'];
-$account_no = $_POST['account_no'];
 $grandTotal = $_GET['grandTotal'];
 //For Customer
 $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no)";
@@ -35,6 +37,7 @@ $binding = array(
   $binding = array(':customer_id' => $customer_id,':qty' => $order_qty, ':total_price' => $grandTotal);
   $order_rs = insert($query,$binding,$conn);
 
+<<<<<<< HEAD
   //For Order Items
   $order_id= $conn->lastInsertId();
   $query = "Insert into orders_items(item_id,order_id) values(:item_id,:order_id)";
@@ -57,6 +60,64 @@ $binding = array(
   }else if($payment == 'credit'){
     $query = "Insert into payments(payment_name,account_number,account_name,customer_id) 
   values(:payment_name,:account_number,:account_name,:customer_id)";
+=======
+//To check bank account balance
+if($bank_balance < $grandTotal) {
+  echo "<script>alert('Your bank balance is low');
+  window.location.href='index.php?hasCart=true'</script>";
+}else {
+
+    //For Orders
+    $customer_id = $conn->lastInsertId();
+    $order_qty = count($_SESSION['cart']);
+    $query = "Insert into orders(status,order_date,customer_acc_id,qty,total_price) 
+    values(0,NOW(),:customer_id,:qty,:total_price)";
+    $binding = array(':customer_id' => $customer_acc_id,':qty' => $order_qty, ':total_price' => $grandTotal);
+    $order_rs = insert($query,$binding,$conn);
+
+    //For Order Items
+    $order_id= $conn->lastInsertId();
+    $query = "Insert into orders_items(item_id,order_id) values(:item_id,:order_id)";
+    foreach($_SESSION['cart'] as $key => $value){
+      $binding= array(
+        ':item_id' => $value['item_id'],
+        ':order_id'=>$order_id
+        );
+      $order_item_rs = insert($query,$binding,$conn);
+    }
+
+    //For Customer
+    $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, order_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :order_id)";
+    $binding = array(
+      ':firstName'  => $firstName,
+      ':lastName' => $lastName,
+      ':email' => $email,
+      ':postal_code' => $postal_code,
+      ':address' => $address,
+      ':phone_no' => $contactno,
+      ':order_id'=>$order_id
+      );
+      $customer_rs = insert($query,$binding,$conn);
+
+    // To update bank balance
+    $rs_balance = $bank_balance - $grandTotal;
+
+    $query = "Update bank set balance = '".$rs_balance."' where customer_id ='".$_SESSION['customer_acc_id']."'";
+    $bank_statement = get($query, $conn);
+
+
+    //For Payments
+    // if($payment == 'paypal'){
+    // $query = "Insert into payments(payment_name,customer_id) 
+    // values(:payment_name,:customer_id)";
+    // $binding = array(
+    //   ':payment_name' => $payment,
+    //   ':customer_id' => $customer_id
+    //   );
+    // }else if($payment == 'credit'){
+    //   $query = "Insert into payments(payment_name,account_number,account_name,customer_id) 
+    // values(:payment_name,:account_number,:account_name,:customer_id)";
+>>>>>>> develop
 
   $binding = array(
     ':payment_name' => $payment,

@@ -2,8 +2,10 @@
 include '../functions.php';
 $conn = connect();
 if($conn){
-	$custId = $_GET['custid'];
-	$query = 'Select * from customer left join payments on customer.customer_id = payments.customer_id where customer.customer_id='.$custId;
+	// $custId = $_GET['custid'];
+	$orderId = $_GET['orderid'];
+	$query = 'Select * from orders left join customer on orders.order_id = customer.order_id left join bank on orders.customer_acc_id = bank.customer_id where orders.order_id='.$orderId;
+	// $query = 'Select * from customer_accounts left join bank on customer_accounts.customer_acc_id = bank.customer_id left join customer on customer_accounts.customer_acc_id = customer.customer_acc_id left join orders on customer_accounts.customer_acc_id = orders.customer_acc_id where customer_accounts.customer_acc_id='.$custId.' and orders.order_id='.$orderId;
 	$result = get($query,$conn);
 	while($row = $result->fetch()):
 
@@ -50,16 +52,14 @@ if($conn){
 		<div class="row">
 			<div class="col-md-12">
 				<div class="panel panel-default">
-					<div class="panel-heading"><?=$row['firstName']." ".$row['lastName']; ?></div>
+					<div class="panel-heading"><?=$row['firstName'].' '.$row['lastName']; ?></div>
 					<div class="panel-body">
 						Postal Code = <?= $row['postal_code']; ?><br/>
 						Delivery Address = <?= $row['address'];?><br/>
 						Phone No = <?= $row['phone_no']?><br/>
-						Payment Name = <?= $payName=$row['payment_name']; ?><br/>
-						<?php if($payName != 'paypal'): ?>
-						Account Name = <?= $row['account_name']; ?><br/>
-						Account Number = <?= $row['account_number']; ?><br/>
-					<?php endif; endwhile; }?>
+						Account Name = <?= $row['acc_name']; ?><br/>
+						Account Number = <?= $row['acc_no']; ?>
+					<?php endwhile; }?>
 					</div>
 				</div>
 			</div>
