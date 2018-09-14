@@ -34,20 +34,17 @@
 				<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?= $_SESSION['first_name'];?>
 				<span class="caret"></span></a>
 				        <ul class="dropdown-menu">
-				          <li><a href="logout.php">Logout</a></li>
+				        	<li><a href="wallet.php">Wallet</a></li>
+				          	<li><a href="logout.php">Logout</a></li>
 				        </ul>
 				</a></li>
 				<?php }else {?>
 		        <li><a href="register.php"><span class="glyphicon glyphicon-user"></span> Register</a></li>
 		        <li><a href="login.php"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 		        <?php } ?>
-<<<<<<< HEAD
-		        <li><a href="shopping-cart/index.php"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup><span class="badge"><?= $cart; ?></span></sup> </a></li>
-=======
 		        <?php if(isset($_SESSION['email'])): ?>
 		        <li><a href="shopping-cart/index.php?hasCart=<?=$hasCart;?>"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <sup><span class="badge"><?= $cart; ?></span></sup> </a></li>
 		    	<?php endif; ?>
->>>>>>> develop
       		</ul>
 		</div>
 

@@ -3,46 +3,36 @@
 	$customer_id = $_SESSION['customer_acc_id'];
 	require 'functions.php';
 	$conn = connect();
-
 	if($conn){
-
 		if(isset($_POST['set-up'])) {
 			$query = "insert into bank(acc_name, acc_no, balance, customer_id) values(:acc_name, :acc_no, :balance, :customer_id)";
-
 			$binding = array(
 				':acc_name' => $_POST['account_name'],
 				':acc_no' => $_POST['account_no'],
 				':balance' => 0,
 				':customer_id' => $customer_id
 			);
-
 			$res = insert($query, $binding, $conn);
 			if($res) {
 				$_SESSION['bank_balance'] = $_POST['top-up-balance'];
 				echo "<script>alert('Finished Bank Account Set up')</script>";
 			}
-
 		}else if(isset($_POST['top-up'])) {
-
 			$query = "update bank set balance = :balance where customer_id = $customer_id";
-
 			$binding = array(
 				':balance' => $_POST['top-up-balance']
 			);
-
 			$res = insert($query, $binding, $conn);
 			if($res) {
 				$_SESSION['bank_balance'] = $_POST['top-up-balance'];
 				echo "<script>alert('Topped up Successfully')</script>";
 			}
 		}
-
 		$query = 'Select * from bank where customer_id ='. $customer_id;
 		$get_bank_info = get($query, $conn);
 		$res_bank_info = $get_bank_info->fetch();
 		
 	}
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -201,14 +191,12 @@
 				$('.wallet-initial').addClass('hide')
 				$('.wallet-add-info').removeClass('hide');
 			})
-
 			$('.wallet-info-tab').on('click', function() {
 				$('.wallet-info-tab--content').removeClass('hide');
 				$('.top-up-tab--content').addClass('hide');
 				$(this).addClass('active');
 				$('.top-up-tab').removeClass('active');
 			})
-
 			$('.top-up-tab').on('click', function() {
 				$('.wallet-info-tab--content').addClass('hide');
 				$('.top-up-tab--content').removeClass('hide');
@@ -216,7 +204,6 @@
 				$('.wallet-info-tab').removeClass('active');
 			})
 		});
-
 	</script>
 </body>
 </html>

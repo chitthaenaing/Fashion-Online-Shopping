@@ -2,14 +2,9 @@
 session_start();
 require '../functions.php';
 $conn = connect();
-<<<<<<< HEAD
-
-=======
 $bank_balance = $_SESSION['bank_balance'];
 $customer_acc_id = $_SESSION['customer_acc_id'];
->>>>>>> develop
 if(isset($_POST['order'])){
-
 $firstName = $_POST['first_name'];
 $lastName = $_POST['last_name'];
 $email  = $_POST['email'];
@@ -17,56 +12,11 @@ $postal_code = $_POST['postal_code'];
 $address = $_POST['address'];
 $contactno = $_POST['contact_no'];
 $grandTotal = $_GET['grandTotal'];
-//For Customer
-$query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no)";
-$binding = array(
-  ':firstName'  => $firstName,
-  ':lastName' => $lastName,
-  ':email' => $email,
-  ':postal_code' => $postal_code,
-  ':address' => $address,
-  ':phone_no' => $contactno
-  );
-  $customer_rs = insert($query,$binding,$conn);
-
-  //For Orders
-  $customer_id = $conn->lastInsertId();
-  $order_qty = count($_SESSION['cart']);
-  $query = "Insert into orders(status,order_date,customer_id,qty,total_price) 
-  values(0,NOW(),:customer_id,:qty,:total_price)";
-  $binding = array(':customer_id' => $customer_id,':qty' => $order_qty, ':total_price' => $grandTotal);
-  $order_rs = insert($query,$binding,$conn);
-
-<<<<<<< HEAD
-  //For Order Items
-  $order_id= $conn->lastInsertId();
-  $query = "Insert into orders_items(item_id,order_id) values(:item_id,:order_id)";
-  foreach($_SESSION['cart'] as $key => $value){
-    $binding= array(
-      ':item_id' => $value['item_id'],
-      ':order_id'=>$order_id
-      );
-    $order_item_rs = insert($query,$binding,$conn);
-  }
-
-  //For Payments
-  if($payment == 'paypal'){
-  $query = "Insert into payments(payment_name,customer_id) 
-  values(:payment_name,:customer_id)";
-  $binding = array(
-    ':payment_name' => $payment,
-    ':customer_id' => $customer_id
-    );
-  }else if($payment == 'credit'){
-    $query = "Insert into payments(payment_name,account_number,account_name,customer_id) 
-  values(:payment_name,:account_number,:account_name,:customer_id)";
-=======
 //To check bank account balance
 if($bank_balance < $grandTotal) {
   echo "<script>alert('Your bank balance is low');
   window.location.href='index.php?hasCart=true'</script>";
 }else {
-
     //For Orders
     $customer_id = $conn->lastInsertId();
     $order_qty = count($_SESSION['cart']);
@@ -74,7 +24,6 @@ if($bank_balance < $grandTotal) {
     values(0,NOW(),:customer_id,:qty,:total_price)";
     $binding = array(':customer_id' => $customer_acc_id,':qty' => $order_qty, ':total_price' => $grandTotal);
     $order_rs = insert($query,$binding,$conn);
-
     //For Order Items
     $order_id= $conn->lastInsertId();
     $query = "Insert into orders_items(item_id,order_id) values(:item_id,:order_id)";
@@ -85,7 +34,6 @@ if($bank_balance < $grandTotal) {
         );
       $order_item_rs = insert($query,$binding,$conn);
     }
-
     //For Customer
     $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, order_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :order_id)";
     $binding = array(
@@ -98,14 +46,10 @@ if($bank_balance < $grandTotal) {
       ':order_id'=>$order_id
       );
       $customer_rs = insert($query,$binding,$conn);
-
     // To update bank balance
     $rs_balance = $bank_balance - $grandTotal;
-
     $query = "Update bank set balance = '".$rs_balance."' where customer_id ='".$_SESSION['customer_acc_id']."'";
     $bank_statement = get($query, $conn);
-
-
     //For Payments
     // if($payment == 'paypal'){
     // $query = "Insert into payments(payment_name,customer_id) 
@@ -117,21 +61,23 @@ if($bank_balance < $grandTotal) {
     // }else if($payment == 'credit'){
     //   $query = "Insert into payments(payment_name,account_number,account_name,customer_id) 
     // values(:payment_name,:account_number,:account_name,:customer_id)";
->>>>>>> develop
-
-  $binding = array(
-    ':payment_name' => $payment,
-    ':account_number' => $account_no,
-    ':account_name' => $account_name,
-    ':customer_id' => $customer_id
-    );
+    // $binding = array(
+    //   ':payment_name' => $payment,
+    //   ':account_number' => $account_no,
+    //   ':account_name' => $account_name,
+    //   ':customer_id' => $customer_id
+    //   );
+    // }
+    
+    // $payment_rs = insert($query,$binding,$conn);
+    if($order_rs && $order_item_rs && $bank_statement) {
+      echo "<script>alert('Order! Your order has been successfully placed.'); window.location.href='../index.php'</script>";
+        $_SESSION['bank_balance'] = $rs_balance;
+        unset($_SESSION['cart']);
+        // header("location:../index.php");
+    }
   }
-  
-  $payment_rs = insert($query,$binding,$conn);
-  unset($_SESSION['cart']);
-  header("location:../index.php");
 }
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -148,8 +94,8 @@ if($bank_balance < $grandTotal) {
         <li class="is-active">1. Your Email Address </li>
         <li>2. Your Delivery Address </li>
         <li>3. Select a Delivery Option</li>
-        <li>4. Payment Method</li>
-        <li>5. Finish</li>
+        <!-- <li>4. Payment Method</li> -->
+        <!-- <li>4. Finish</li> -->
         
       </ul>
       <form class="form-wrapper" action="#" method="POST">
@@ -205,10 +151,12 @@ if($bank_balance < $grandTotal) {
             </div>
           </div>
           
-         <div class="button">Next</div>
+         <!-- <div class="button">Next</div> -->
+         <div style="margin-bottom:50px;"></div>
+          <input type="submit" class="submit button" name="order" value="Submit My Order">
         </fieldset>
 
-        <fieldset class="section">
+        <!-- <fieldset class="section">
           <h3>Payment method</h3>
           <div class="card__container">
         <div class="card">
@@ -294,7 +242,7 @@ if($bank_balance < $grandTotal) {
     </div>
       <div style="margin-bottom:50px;"></div>
            <input type="submit" class="submit button" name="order" value="Submit My Order">
-        </fieldset>
+        </fieldset> -->
         </form>
         <!-- <fieldset class="section">
           <h3>Orderd !</h3>
@@ -313,20 +261,17 @@ if($bank_balance < $grandTotal) {
     var headerSection = $('.steps li').eq(currentSectionIndex);
     currentSection.removeClass("is-active").next().addClass("is-active");
     headerSection.removeClass("is-active").next().addClass("is-active");
-
-    $(".form-wrapper").submit(function(e) {
-      // e.preventDefault();
-      alert("Order! Your order has been successfully placed.")
+    // $(".form-wrapper").submit(function(e) {
+    //   // e.preventDefault();
+    //   alert("Order! Your order has been successfully placed.")
        
-    });
-
+    // });
     if(currentSectionIndex === 5){
       $(document).find(".form-wrapper .section").first().addClass("is-active");
       $(document).find(".steps li").first().addClass("is-active");
     }
   });
 });
-
   </script>
 </body>
 </html>
