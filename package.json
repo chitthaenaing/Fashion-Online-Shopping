@@ -19,5 +19,8 @@
   "devDependencies": {
     "browser-sync": "^2.24.7",
     "gulp": "^3.9.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.11"
   }
 }
