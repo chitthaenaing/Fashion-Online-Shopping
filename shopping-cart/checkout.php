@@ -15,7 +15,7 @@ $grandTotal = $_GET['grandTotal'];
 //To check bank account balance
 if($bank_balance < $grandTotal) {
   echo "<script>alert('Your bank balance is low');
-  window.location.href='index.php'</script>";
+  window.location.href='../shopping-cart.php'</script>";
 }else {
     //For Orders
     $customer_id = $conn->lastInsertId();
@@ -88,6 +88,7 @@ if($bank_balance < $grandTotal) {
   <link rel="stylesheet" type="text/css" href="css/payment_style.css">
 </head>
 <body>
+  <button class="btn-back">Back</button>
   <div class="container">
     <div class="wrapper">
       <ul class="steps">
@@ -254,6 +255,10 @@ if($bank_balance < $grandTotal) {
   </div>
   <script type="text/javascript">
   $(document).ready(function(){
+
+  $('.btn-back').on('click', function() {
+    window.location.href="../shopping-cart.php";
+  })
   $(".form-wrapper .button").click(function(){
     var button = $(this);
     var currentSection = button.parents(".section");

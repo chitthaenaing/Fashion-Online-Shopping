@@ -21,6 +21,7 @@ if(isset($_SESSION['cart'])) {
         $diff = $interval->format('%R%a');
         if($diff > 0) {
           $couponAmount = $row['coupon_amount'];  
+          echo "<script>alert('Your Coupon Code has been applied');</script>"; 
         }else {
           echo "<script>alert('Sorry! Your Coupon Code has expired');</script>"; 
         }
