@@ -15,7 +15,7 @@ $grandTotal = $_GET['grandTotal'];
 //To check bank account balance
 if($bank_balance < $grandTotal) {
   echo "<script>alert('Your bank balance is low');
-  window.location.href='index.php?hasCart=true'</script>";
+  window.location.href='index.php'</script>";
 }else {
     //For Orders
     $customer_id = $conn->lastInsertId();

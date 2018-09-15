@@ -6,11 +6,29 @@ var fadeTime = 300;
 
 /* Assign actions */
 $('.product-quantity input').change( function() {
-  updateQuantity(this);
+  var productId = $(this).parent().parent().attr('data-id');
+  var productQty = $(this).val();
+  var self = this;
+
+  $.get( "check-stockin.php", { productId: productId, quantity: productQty } )
+    .done(function( data ) {
+      $data = JSON.parse(data);
+      if(!$data.check) {
+        alert('Not Enough Stock! Only ' + $data.instock + ' available for this stock!');
+      }else {
+        updateQuantity(self);
+      }
+  });
 });
 
 $('.product-removal button').click( function() {
-  removeItem(this);
+  var productId = $(this).parent().parent().attr('data-id');
+  var self = this;
+  $.get( "remove-items-from-shopping-cart.php", { productId: productId } )
+    .done(function() {
+      removeItem(self);
+  });
+  
 });
 
 

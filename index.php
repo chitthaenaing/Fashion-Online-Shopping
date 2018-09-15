@@ -8,24 +8,24 @@
 
 	if($conn){
 	//New Products
-	$query = 'Select * from products order by item_id desc limit 4';
+	$query = "Select * from products where status = '1' order by item_id desc limit 4";
 	$new = get($query,$conn);
 
 	//MEN Products
-	$query = "Select * from products where categories ='Men' limit 4";
+	$query = "Select * from products where  status = '1' && categories ='Men' limit 4";
 	$men = get($query,$conn);
 
 	//Women Products
-	$query = "Select * from products where categories ='Women' limit 4";
+	$query = "Select * from products where status = '1' && categories ='Women' limit 4";
 	$women = get($query,$conn);
 	
 	//Kids Products
-	$query = "Select * from products where categories ='Kids' limit 4";
+	$query = "Select * from products where status = '1' && categories ='Kids' limit 4";
 	$kids = get($query,$conn);
 
 	if(isset($_GET['search']))	{
 			//Search Products
-			$query = "Select * from products where item_name like '%".$keywords."%'";
+			$query = "Select * from products where status = '1' && item_name like '%".$keywords."%'";
 			$result = get($query, $conn);
 		}
 	}

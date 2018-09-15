@@ -6,7 +6,7 @@
 	if($conn){
 
 	//MEN Products
-	$query = "Select * from products where categories ='Women'";
+	$query = "Select * from products where categories ='Women' and status = '1'";
 	$women = get($query,$conn);
 
 	}
