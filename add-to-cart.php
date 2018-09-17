@@ -23,6 +23,7 @@ $itemarray['discount_price'] = $row['discount_price'];
 $itemarray['instock'] = $row['instock'];
 $itemarray['categories'] = $row['categories'];
 $itemarray['type'] = $row['type'];
+$itemarray['qty'] = 0;
 }
 if (empty($_SESSION['cart']))
 {

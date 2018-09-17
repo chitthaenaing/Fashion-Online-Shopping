@@ -2,7 +2,6 @@
 	session_start();
 	require 'functions.php';
 	// $conn = connect();
-
 	$productId = $_GET['productId'];
 	foreach ($_SESSION['cart'] as $key => $value) {
 		if($value['item_id'] == $productId) {

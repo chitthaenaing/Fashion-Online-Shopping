@@ -2,6 +2,6 @@
 session_start();
 session_destroy();
 $_SESSION = [];
-header("location:index.php");
+echo "<script>alert('Logout Successfully!');window.location.href='index.php';</script>";
 
 ?>

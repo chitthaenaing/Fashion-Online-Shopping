@@ -24,6 +24,7 @@ if($bank_balance < $grandTotal) {
     values(0,NOW(),:customer_id,:qty,:total_price)";
     $binding = array(':customer_id' => $customer_acc_id,':qty' => $order_qty, ':total_price' => $grandTotal);
     $order_rs = insert($query,$binding,$conn);
+
     //For Order Items
     $order_id= $conn->lastInsertId();
     $query = "Insert into orders_items(item_id,order_id) values(:item_id,:order_id)";
@@ -34,6 +35,7 @@ if($bank_balance < $grandTotal) {
         );
       $order_item_rs = insert($query,$binding,$conn);
     }
+
     //For Customer
     $query = "Insert into customer (firstName,lastName,email,postal_code,address,phone_no, order_id) values(:firstName,:lastName,:email,:postal_code,:address,:phone_no, :order_id)";
     $binding = array(
@@ -46,31 +48,34 @@ if($bank_balance < $grandTotal) {
       ':order_id'=>$order_id
       );
       $customer_rs = insert($query,$binding,$conn);
+
     // To update bank balance
     $rs_balance = $bank_balance - $grandTotal;
     $query = "Update bank set balance = '".$rs_balance."' where customer_id ='".$_SESSION['customer_acc_id']."'";
     $bank_statement = get($query, $conn);
-    //For Payments
-    // if($payment == 'paypal'){
-    // $query = "Insert into payments(payment_name,customer_id) 
-    // values(:payment_name,:customer_id)";
-    // $binding = array(
-    //   ':payment_name' => $payment,
-    //   ':customer_id' => $customer_id
-    //   );
-    // }else if($payment == 'credit'){
-    //   $query = "Insert into payments(payment_name,account_number,account_name,customer_id) 
-    // values(:payment_name,:account_number,:account_name,:customer_id)";
-    // $binding = array(
-    //   ':payment_name' => $payment,
-    //   ':account_number' => $account_no,
-    //   ':account_name' => $account_name,
-    //   ':customer_id' => $customer_id
-    //   );
-    // }
     
-    // $payment_rs = insert($query,$binding,$conn);
-    if($order_rs && $order_item_rs && $bank_statement) {
+    // To update product
+
+    $query = "Update products set instock = 
+    :instock where item_id = :item_id";
+   
+    foreach($_SESSION['cart'] as $key => $value) {
+      $product_query = "Select instock from products where item_id = '" .$value['item_id']."'";
+      $rs = get($product_query, $conn);
+      
+      $get_instock = $rs->fetch();
+
+      $binding = array(
+        ':item_id' => $value['item_id'],
+        ':instock' => $get_instock[0] - $value['qty']
+      );
+      $stmt = $conn->prepare($query);
+      $rs_instock = $stmt->execute($binding);
+      
+    }
+    
+    if($order_rs && $order_item_rs && $bank_statement && $rs_instock
+    ) {
       echo "<script>alert('Order! Your order has been successfully placed.'); window.location.href='../index.php'</script>";
         $_SESSION['bank_balance'] = $rs_balance;
         unset($_SESSION['cart']);

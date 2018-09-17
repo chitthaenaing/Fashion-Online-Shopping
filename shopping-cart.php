@@ -3,7 +3,12 @@ session_start();
 require 'functions.php';
 $conn = connect();
 
+
+
+
 if(isset($_SESSION['cart'])) {
+
+
   $couponAmount = 0;
   if(isset($_POST['coupon_use'])){
     $couponCode = $_POST['coupon_code'];
@@ -76,7 +81,8 @@ if(isset($_SESSION['cart'])) {
               <label class="product-removal">Remove</label>
               <label class="product-line-price">Total</label>
             </div>
-            <?php foreach($_SESSION['cart'] as $row) { ?>
+            <?php foreach($_SESSION['cart'] as $index => $row) { ?>
+
             <div class="product" data-id="<?=$row['item_id']?>">
               <div class="product-image">
                <img src="admin/photo/<?=$row['item_image']; ?>">
@@ -88,7 +94,7 @@ if(isset($_SESSION['cart'])) {
                 <?= $pr = ($row['discount_price']>0)?$row['discount_price']:$row['price'];?>
               </div>
               <div class="product-quantity">
-                <input type="number" value="1" min="1" id="product-quantity">
+                <input type="number" value="1" min="1" class = "product-quantity-<?=$index?>" id="product-quantity">
               </div>
               <div class="product-removal">
                 <button class="remove-product">
@@ -135,7 +141,7 @@ if(isset($_SESSION['cart'])) {
               </div>
             </div>
                 
-            <button class="checkout" onclick="checkout()">Checkout</button>
+            <button class="checkout" name="checkout" onclick="checkout(<?=sizeof($_SESSION['cart'])?>)">Checkout</button>
 
           </div>  
                 
@@ -150,9 +156,21 @@ if(isset($_SESSION['cart'])) {
     <script>
   
   
-  function checkout(){
+  function checkout(totalProduct){
+
+    var productQty = [];
+    for(var i=0;i<totalProduct;i++) {
+      productQty.push($('.product-quantity-'+i).val());
+    }
+    console.log(productQty);
     var grandTotal = $('#cart-total').html();
-    window.location.href="shopping-cart/checkout.php?grandTotal="+grandTotal;
+    $.get( "add-product-qty.php", { productQuantities: JSON.stringify(productQty) } )
+      .done(function(data) {
+        // var data = JSON.parse(data);
+        // console.log(data);
+        window.location.href="shopping-cart/checkout.php?grandTotal="+grandTotal;
+    });
+    
   }  
 </script>
 

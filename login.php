@@ -20,10 +20,12 @@
 				}
 
 			if($status){	
-				header("location:index.php");
+				echo "<script>alert('Login Successfully');window.location.href='index.php';</script>";
+				// header("location:index.php");
 			}else if($email=='admin@gmail.com' && $password  == md5('asd123')){
 				$_SESSION['email'] = $email;
-				header("location:admin/dashboard.php");
+				echo "<script>alert('Login Successfully');window.location.href='admin/dashboard.php';</script>";
+				// header("location:admin/dashboard.php");
 			}else{
 				$error = "Username and Password is invalid";
 				echo "<script>alert('$error');</script>";

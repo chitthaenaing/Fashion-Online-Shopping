@@ -27,6 +27,7 @@ $('.product-removal button').click( function() {
   $.get( "remove-items-from-shopping-cart.php", { productId: productId } )
     .done(function() {
       removeItem(self);
+      location.reload();
   });
   
 });
