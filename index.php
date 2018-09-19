@@ -206,6 +206,26 @@
 		<?php endif; ?>
 	</div>
 	<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script type="text/javascript">
+		$('.logout-link').on('click', function(e) {
+			console.log('click');
+			$.ajax({
+		      url:'logout.php', 
+		      type:'GET',
+		      success:function(data){
+		      	var data = JSON.parse(data);
+		        
+		    	swal("Success!", data.response, "success").then((value) => { window.location.href= data.location});
+		      },
+		      error:function(data){
+		        
+			    swal("Oops...", "Something went wrong :(", "error");
+		      }
+		    });
+		});
+
+	</script>
 	  
 </body>
 </html>

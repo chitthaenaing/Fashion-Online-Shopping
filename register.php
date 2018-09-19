@@ -1,30 +1,3 @@
-<?php 
-	
-	include 'functions.php';
-	$conn = connect();
-
-	if($conn){
-		if(isset($_POST['register'])){
-			$firstName = $_POST['firstName'];
-			$lastName = $_POST['lastName'];
-			$email = $_POST['email'];
-			$password = md5($_POST['password']);
-			$gender = $_POST['gender'];
-
-			$query = 'Insert into customer_accounts(first_name,last_name,email,password,gender,registered_date) values(:firstName,:lastName,:email,:password,:gender,NOW())';
-			$binding = array(
-				':firstName' => $firstName,
-				':lastName' => $lastName,
-				':email' => $email,
-				':password' => $password,
-				':gender' => $gender
-			);
-			$res = insert($query,$binding,$conn);
-			if($res) echo '<script>alert("Successfully Registered");</script>';
-
-		}		
-	}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -117,14 +90,46 @@
 					<label class="radio-inline"><input type="radio" name="gender" value="Female">Female</label>
 				</div>
 
-				<input type="submit" name="register" value="Register" class="btn btn-lg btn-primary col-md-offset-1 col-md-10" style="margin-top:20px;">
+				<input type="submit" name="register" value="Register" class="btn btn-lg btn-primary col-md-offset-1 col-md-10" style="margin-top:20px;" id="register-btn">
 			
 			</form>
 		</div>
 	</div>
 	
 	<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	
+	<script>
+		$('#register-btn').on('click', function(e) {
+			var email = $('#inputEmail').val();
+			var password = $('#inputPassword').val();
+			var confirmPassword = $('#confirmPassword').val();
+			var firstName = $('#firstName').val();
+			var lastName = $('#lastName').val();
+			var gender = $('input[name=gender]:checked').val();
+			$.ajax({
+		      url:'create-register.php', 
+		      data: {email: email, password: password, confirmPassword: confirmPassword, firstName : firstName, lastName : lastName, gender: gender},
+		      type:'POST',
+		      success:function(data){
+		      	var data = JSON.parse(data);
+		      	
+			    if(data.status) {
+			    	swal("Success!", data.response, "success").then((val) => {
+				    	window.location.href= 'register.php';
+				    });
+			    }else {
+			    	swal("Fail!", "Something wrong", "error");
+			    }
+		      },
+		      error:function(data){
+		        
+			    swal("Oops...", "Something went wrong :(", "error");
+		      }
+		    });
+		    e.preventDefault(); 
+		})
+	</script>
 	  
 </body>
 </html>

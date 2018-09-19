@@ -76,25 +76,43 @@
 	</div>
 	
 	<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){ 
-    $('#characterLeft').text('140 characters left');
-    $('#message').keydown(function () {
-        var max = 140;
-        var len = $(this).val().length;
-        if (len >= max) {
-            $('#characterLeft').text('You have reached the limit');
-            $('#characterLeft').addClass('red');
-            $('#btnSubmit').addClass('disabled');            
-        } 
-        else {
-            var ch = max - len;
-            $('#characterLeft').text(ch + ' characters left');
-            $('#btnSubmit').removeClass('disabled');
-            $('#characterLeft').removeClass('red');            
-        }
-    });    
-});
+		    $('#characterLeft').text('140 characters left');
+		    $('#message').keydown(function () {
+		        var max = 140;
+		        var len = $(this).val().length;
+		        if (len >= max) {
+		            $('#characterLeft').text('You have reached the limit');
+		            $('#characterLeft').addClass('red');
+		            $('#btnSubmit').addClass('disabled');            
+		        } 
+		        else {
+		            var ch = max - len;
+		            $('#characterLeft').text(ch + ' characters left');
+		            $('#btnSubmit').removeClass('disabled');
+		            $('#characterLeft').removeClass('red');            
+		        }
+		    }); 
+
+		    $('.logout-link').on('click', function(e) {
+				console.log('click');
+				$.ajax({
+			      url:'logout.php', 
+			      type:'GET',
+			      success:function(data){
+			      	var data = JSON.parse(data);
+			        
+			    	swal("Success!", data.response, "success").then((value) => { window.location.href= data.location});
+			      },
+			      error:function(data){
+			        
+				    swal("Oops...", "Something went wrong :(", "error");
+			      }
+			    });
+			});   
+		});
 
 	</script>
 	  

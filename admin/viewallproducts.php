@@ -122,7 +122,8 @@ if($conn){
 	<script src="js/easypiechart-data.js"></script>
 	<script src="js/bootstrap-datepicker.js"></script>
 	<script src="js/bootstrap-table.js"></script>
-	 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 	
 <!-- Data Tables -->
@@ -131,7 +132,21 @@ if($conn){
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.16/datatables.min.js"></script>    
 
 	<script>
-		$('#calendar').datepicker({
+		$('.logout-link').on('click', function(e) {
+			console.log('click');
+			$.ajax({
+		      url:'../logout.php', 
+		      type:'GET',
+		      success:function(data){
+		      	var data = JSON.parse(data);
+		        
+		    	swal("Success!", data.response, "success").then((value) => { window.location.href= '../' + data.location});
+		      },
+		      error:function(data){
+		        
+			    swal("Oops...", "Something went wrong :(", "error");
+		      }
+		    });
 		});
 
 		$('#viewproducts').DataTable();

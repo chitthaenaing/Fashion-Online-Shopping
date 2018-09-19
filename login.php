@@ -1,41 +1,3 @@
-<?php 
-	session_start();
-	require 'functions.php';
-	$conn = connect();
-	if($conn){
-		if(isset($_POST['login'])){
-			//Validate Username and Password
-			$email = $_POST['email'];
-			$password = md5($_POST['password']);
-			$query = "Select * from customer_accounts left join bank on customer_accounts.customer_acc_id = bank.customer_id where email='$email' and password='$password'";
-			$user = get($query,$conn);
-			$status = $user->rowCount();
-			//Set SESSION 
-				while($row = $user->fetch()){
-					$_SESSION['customer_acc_id'] = $row['customer_acc_id'];
-					$_SESSION['first_name'] = $row['first_name'];
-					$_SESSION['last_name'] = $row['last_name'];
-					$_SESSION['email'] = $row['email'];
-					$_SESSION['bank_balance'] = $row['balance'];
-				}
-
-			if($status){	
-				echo "<script>alert('Login Successfully');window.location.href='index.php';</script>";
-				// header("location:index.php");
-			}else if($email=='admin@gmail.com' && $password  == md5('asd123')){
-				$_SESSION['email'] = $email;
-				echo "<script>alert('Login Successfully');window.location.href='admin/dashboard.php';</script>";
-				// header("location:admin/dashboard.php");
-			}else{
-				$error = "Username and Password is invalid";
-				echo "<script>alert('$error');</script>";
-			}
-
-			
-
-		}
-	}
-?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -100,7 +62,7 @@
 					
 					<div class="form-group">
 						<div class="col-xs-offset-4 col-xs-8">
-							<input type="submit" name="login" value="Login" class="btn btn-primary">		
+							<input type="submit" name="login" value="Login" class="btn btn-primary" id="login-btn">		
 						</div>
 					</div>
 					
@@ -125,7 +87,37 @@
 	</div>
 	
 	<script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
-	
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+	<script>
+		$('#login-btn').on('click', function(e) {
+			var email = $('#inputEmail').val();
+			var password = $('#inputPassword').val();
+			$.ajax({
+		      url:'check-auth.php', 
+		      data: {email: email, password: password},
+		      type:'POST',
+		      success:function(data){
+		      	var data = JSON.parse(data);
+		      	
+			    if(data.status) {
+			    	swal("Success!", data.response, "success").then((val) => {
+				    	window.location.href= data.location;
+				    });
+			    }else {
+			    	swal("Fail!", data.response, "error").then((val) => {
+				    	window.location.href= data.location;
+				    });
+			    }
+		      },
+		      error:function(data){
+		        
+			    swal("Oops...", "Something went wrong :(", "error");
+		      }
+		    });
+		    e.preventDefault(); 
+		})
+	</script>
 	  
 </body>
 </html>

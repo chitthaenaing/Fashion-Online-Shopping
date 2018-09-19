@@ -12,9 +12,9 @@ $('.product-quantity input').change( function() {
 
   $.get( "check-stockin.php", { productId: productId, quantity: productQty } )
     .done(function( data ) {
-      $data = JSON.parse(data);
-      if(!$data.check) {
-        alert('Not Enough Stock! Only ' + $data.instock + ' available for this stock!');
+      var data = JSON.parse(data);
+      if(!data.check) {
+        alert('Not Enough Stock! Only ' + data.instock + ' available for this stock!');
       }else {
         updateQuantity(self);
       }

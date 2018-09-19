@@ -32,7 +32,7 @@
 				<span class="caret"></span></a>
 				        <ul class="dropdown-menu">
 				        	<li><a href="wallet.php">Wallet</a></li>
-				          	<li><a href="logout.php">Logout</a></li>
+				          	<li><a href="#" class="logout-link">Logout</a></li>
 				        </ul>
 				</a></li>
 				<?php }else {?>
