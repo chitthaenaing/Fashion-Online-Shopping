@@ -151,27 +151,44 @@ if(isset($_SESSION['cart'])) {
 
   <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <script  src="shopping-cart/js/index.js"></script>
     <script>
   
+      $('.logout-link').on('click', function(e) {
+        console.log('click');
+        $.ajax({
+            url:'logout.php', 
+            type:'GET',
+            success:function(data){
+              var data = JSON.parse(data);
+              
+            swal("Success!", data.response, "success").then((value) => { window.location.href= data.location});
+            },
+            error:function(data){
+              
+            swal("Oops...", "Something went wrong :(", "error");
+            }
+          });
+      });
   
-  function checkout(totalProduct){
+      function checkout(totalProduct){
 
-    var productQty = [];
-    for(var i=0;i<totalProduct;i++) {
-      productQty.push($('.product-quantity-'+i).val());
-    }
-    console.log(productQty);
-    var grandTotal = $('#cart-total').html();
-    $.get( "add-product-qty.php", { productQuantities: JSON.stringify(productQty) } )
-      .done(function(data) {
-        // var data = JSON.parse(data);
-        // console.log(data);
-        window.location.href="shopping-cart/checkout.php?grandTotal="+grandTotal;
-    });
-    
-  }  
+        var productQty = [];
+        for(var i=0;i<totalProduct;i++) {
+          productQty.push($('.product-quantity-'+i).val());
+        }
+        console.log(productQty);
+        var grandTotal = $('#cart-total').html();
+        $.get( "add-product-qty.php", { productQuantities: JSON.stringify(productQty) } )
+          .done(function(data) {
+            // var data = JSON.parse(data);
+            // console.log(data);
+            window.location.href="shopping-cart/checkout.php?grandTotal="+grandTotal;
+        });
+        
+      }  
 </script>
 
 </body>
