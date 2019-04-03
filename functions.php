@@ -3,10 +3,10 @@
 	function connect(){
 		try{
 			// Database Configuration 
-			$servername="localhost";
-			$username="root";
-			$password = "";
-			$dbname="dreamhouse";
+			$servername="us-cdbr-iron-east-03.cleardb.net";
+			$username="bd50d688d356ba";
+			$password = "2da6c929";
+			$dbname="heroku_3baa2dea8c27f55";
 	 	 	$conn=new PDO("mysql:host=$servername;dbname=$dbname",$username,$password);
 	 	 	return $conn;
 		}catch(PDOException $e){
@@ -15,7 +15,6 @@
 		}
 	}
 
-	
 	function get($query,$conn){
 		try{
 			$stmt = $conn->prepare($query);
