@@ -50,6 +50,8 @@ if(isset($_SESSION['cart'])) {
   <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7/css/custom.css">
 
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
   
   <link rel="stylesheet" href="shopping-cart/css/style.css">
 
@@ -149,7 +151,6 @@ if(isset($_SESSION['cart'])) {
     </div>
   </div>
 
-  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
   <script type="text/javascript" src="bootstrap-3.3.7/js/bootstrap.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
